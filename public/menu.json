@@ -1,0 +1,479 @@
+{
+  "restaurant_menu": [
+    {
+      "category": "KHAI VỊ",
+      "sections": [
+        {
+          "section_name": "RAU TRỘN",
+          "items": [
+            {
+              "name": "SALAD DẦU GIẤM",
+              "description": "Xà lách caron, hành tây, cà chua, dưa leo trộn với dầu giấm, mayonnaise",
+              "price": "45K"
+            },
+            {
+              "name": "SALAD DẦU GIẤM TRỨNG",
+              "description": "Xà lách caron, hành tây, cà chua, dưa leo trộn với dầu giấm, mayonnaise và trứng gà",
+              "price": "55K"
+            },
+            {
+              "name": "SALAD RONG NHO SỐT MÈ RANG",
+              "description": "Xà lách caron, cà chua, dưa leo, rong nho ăn với sốt mè rang béo béo",
+              "price": "59K"
+            },
+            {
+              "name": "GỎI TÁI KHẾ TẮC ***",
+              "description": "Thịt tươi xào khế chua, nước dừa tươi, xả phi với đậu phộng",
+              "price": "65K"
+            },
+            {
+              "name": "GỎI BÒ TÁI CHANH",
+              "description": "Thịt bắp bò, hành tây, rau thơm, ớt đỏ, mè rang",
+              "price": "75K"
+            },
+            {
+              "name": "GỎI BÒ BÓP THẤU",
+              "description": "Bắp bò, chuối chát, khế chua, hành tây, cà rốt, bắp cải",
+              "price": "75K"
+            },
+            {
+              "name": "GỎI BÒ CỦ HỦ DỪA ***",
+              "description": "Bắp bò, rau củ bóp chua ngọt giòn, xào thơm cay cay",
+              "price": "109K"
+            }
+          ]
+        },
+        {
+          "section_name": "ĂN VẶT",
+          "items": [
+            {
+              "name": "KHOAI TÂY CHIÊN",
+              "description": null,
+              "price": "39K"
+            },
+            {
+              "name": "ĐẬU PHỘNG RANG TỎI ỚT",
+              "description": null,
+              "price": "19K"
+            },
+            {
+              "name": "LẠP XƯỞNG CHIÊN",
+              "description": null,
+              "price": "39K"
+            },
+            {
+              "name": "MỰC DÉO XÀO TỎI ỚT",
+              "description": null,
+              "price": "59K"
+            },
+            {
+              "name": "HOÀNH THÁNH CHIÊN",
+              "description": null,
+              "price": "39K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "LAI RAI",
+      "sections": [
+        {
+          "section_name": "NÊN THỬ",
+          "items": [
+            {
+              "name": "GÀ NƯỚNG MUỐI ỚT ***",
+              "description": "Gà rán ướp đậm đà, da giòn chấm muối ớt và rau thơm",
+              "price": "95K"
+            },
+            {
+              "name": "TÔM RANG MUỐI TỎI ***",
+              "description": "Vỏ tôm chiên giòn, xốt mặn mà cùng tỏi phi",
+              "price": "99K"
+            },
+            {
+              "name": "SỤN GÀ LẮC QUÁI",
+              "description": "Sụn gà chiên giòn, lắc xí muội mặn mặn ngọt ngọt",
+              "price": "69K"
+            },
+            {
+              "name": "DA HEO MẮM TỎI",
+              "description": "Da heo chiên giòn rụm, thấm vị xốt cay ngọt",
+              "price": "54K"
+            },
+            {
+              "name": "CÁ TRỐNG CHIÊN MẮM TỎI",
+              "description": "Cá trứng chiên giòn, chấm mắm me chua cay ngọt",
+              "price": "69K"
+            },
+            {
+              "name": "SỤN GÀ LẮC CHANH DÂY ***",
+              "description": "Sụn gà chiên giòn lắc với xốt cay me chua ngọt",
+              "price": "75K"
+            },
+            {
+              "name": "CÁNH GÀ CHIÊN NƯỚC MẮM",
+              "description": "Cánh gà tươi chiên giòn xốt mắm thơm ngon",
+              "price": "85K"
+            }
+          ]
+        },
+        {
+          "section_name": "MÓN MỚI",
+          "items": [
+            {
+              "name": "ĐẬU HŨ CHIÊN TRỨNG ***",
+              "description": null,
+              "price": "39K"
+            },
+            {
+              "name": "RÂU MỰC HẤP TIÊU",
+              "description": null,
+              "price": "65K"
+            },
+            {
+              "name": "ĐẬU HŨ TẮC BẮP",
+              "description": null,
+              "price": "39K"
+            },
+            {
+              "name": "NGHÊU HẤP THÁI",
+              "description": null,
+              "price": "75K"
+            },
+            {
+              "name": "MỰC CHAY KHO QUẸT ***",
+              "description": null,
+              "price": "55K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "MÓN XÀO",
+      "sections": [
+        {
+          "section_name": "CƠM CHIÊN",
+          "items": [
+            {
+              "name": "CƠM CHIÊN TRÁI THƠM",
+              "description": "Hải sản tươi hài hoà thơm ngon, các loại củ quả chiên cùng cơm",
+              "price": "95K"
+            },
+            {
+              "name": "CƠM CHIÊN XỐT ME",
+              "description": "Hải sản tươi hải lựu chiên cùng cơm và sốt ngậy dịch điệu me",
+              "price": "95K"
+            },
+            {
+              "name": "CƠM HẢI SẢN HOÀNG KIM ***",
+              "description": "Cơm rang hải sản đậm hương thơm vị",
+              "price": "119K"
+            },
+            {
+              "name": "CƠM CHIÊN CUA ĐỎ",
+              "description": "Xốt xào hải sản rang cùng cơm và nước sốt đặc biệt",
+              "price": "119K"
+            },
+            {
+              "name": "CƠM BÒ LÚC LẮC",
+              "description": "Bò xào cùng các loại củ quả ớt chuông, hành tây và sốt chua ngọt",
+              "price": "119K"
+            },
+            {
+              "name": "CƠM TÔM PHÔ MAI TRỨNG ***",
+              "description": "Tôm xào cùng nhiều phô mai ăn cùng cơm và nước sốt đặc biệt",
+              "price": "119K"
+            },
+            {
+              "name": "CƠM CHIÊN TỎI",
+              "description": null,
+              "price": "45K"
+            }
+          ]
+        },
+        {
+          "section_name": "MÌ XÀO",
+          "items": [
+            {
+              "name": "MÌ XÀO BÒ",
+              "description": "Bò xào cùng các loại rau củ mâm xôi cùng mì và sốt đặc biệt",
+              "price": "95K"
+            },
+            {
+              "name": "MÌ XÀO HẢI SẢN",
+              "description": "Tôm, mực xào cùng rau củ sợi cùng mì và sốt hạt dẻo",
+              "price": "95K"
+            },
+            {
+              "name": "MÌ XÀO MỰC",
+              "description": "Rau muống xào mực tươi cùng mì và sốt đặc biệt",
+              "price": "95K"
+            },
+            {
+              "name": "MÌ XÀO RAU MUỐNG TÓP MỠ",
+              "description": "Rau muống xào tỏi cùng tóp mỡ giòn, đậm đà cùng mì xào",
+              "price": "59K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "LẨU & NƯỚNG",
+      "sections": [
+        {
+          "section_name": "THỊT NƯỚNG",
+          "items": [
+            {
+              "name": "Sườn heo nướng chẩm chéo",
+              "description": null,
+              "price": "119K"
+            },
+            {
+              "name": "Bò tơ nướng chấm sả",
+              "description": null,
+              "price": "119K"
+            },
+            {
+              "name": "Ba rọi nướng mắm sen",
+              "description": null,
+              "price": "109K"
+            },
+            {
+              "name": "Bò cuộn phô mai",
+              "description": null,
+              "price": "129K"
+            },
+            {
+              "name": "Lõi nạc bò Mỹ",
+              "description": null,
+              "price": "145K"
+            },
+            {
+              "name": "Bò Hokubee thượng hạng",
+              "description": null,
+              "price": "169K"
+            },
+            {
+              "name": "Bò cuộn nấm kim châm",
+              "description": null,
+              "price": "109K"
+            },
+            {
+              "name": "Ba rọi bò cuộn nấm kim châm",
+              "description": null,
+              "price": "75K"
+            },
+            {
+              "name": "Ba rọi bò sốt cay",
+              "description": null,
+              "price": "75K"
+            },
+            {
+              "name": "Ba rọi bò xào ngâm đậu nành",
+              "description": null,
+              "price": "75K"
+            },
+            {
+              "name": "Ba rọi bò nướng măng tây",
+              "description": null,
+              "price": "79K"
+            },
+            {
+              "name": "Vú heo nướng",
+              "description": null,
+              "price": "129K"
+            },
+            {
+              "name": "Chân gà rút xương",
+              "description": null,
+              "price": "79K"
+            }
+          ]
+        },
+        {
+          "section_name": "HẢI SẢN",
+          "items": [
+            {
+              "name": "Tôm khô",
+              "description": null,
+              "price": "79K"
+            },
+            {
+              "name": "Tôm sú",
+              "description": null,
+              "price": "89K - 129K"
+            },
+            {
+              "name": "Mực lá",
+              "description": null,
+              "price": "99K"
+            },
+            {
+              "name": "Mực Đại Dương",
+              "description": null,
+              "price": "89K"
+            },
+            {
+              "name": "Bạch tuộc",
+              "description": null,
+              "price": "89K"
+            },
+            {
+              "name": "Cá tầm nướng sốt xanh",
+              "description": null,
+              "price": "89K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "TRÀ & NƯỚC NGỌT",
+      "sections": [
+        {
+          "section_name": "NƯỚC NGỌT",
+          "items": [
+            {
+              "name": "Pepsi",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "Pepsi không calo",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "Coca Zero",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "Coca",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "Sprite",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "7Up",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "Tăng lực",
+              "description": null,
+              "price": "25K"
+            },
+            {
+              "name": "Nước suối",
+              "description": null,
+              "price": "15K"
+            },
+            {
+              "name": "Mirinda cam lon",
+              "description": null,
+              "price": "20K"
+            }
+          ]
+        },
+        {
+          "section_name": "TRÀ",
+          "items": [
+            {
+              "name": "Trà nhãn đá",
+              "description": null,
+              "price": "45K"
+            },
+            {
+              "name": "Trà đào Đắc Xui",
+              "description": null,
+              "price": "45K"
+            },
+            {
+              "name": "Trà việt hoa hồng",
+              "description": null,
+              "price": "45K"
+            },
+            {
+              "name": "Trà cam dâu tây bạc hà",
+              "description": null,
+              "price": "55K"
+            },
+            {
+              "name": "Nước cam",
+              "description": null,
+              "price": "55K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "BIA CÁC LOẠI",
+      "sections": [
+        {
+          "section_name": "BIA LON",
+          "items": [
+            {
+              "name": "Tiger nâu 330ml",
+              "description": null,
+              "price": "18K"
+            },
+            {
+              "name": "Tiger Bạc 330ml",
+              "description": null,
+              "price": "20K"
+            },
+            {
+              "name": "Heineken Bạc 330ml",
+              "description": null,
+              "price": "25K"
+            },
+            {
+              "name": "Saigon Lager 330ml",
+              "description": null,
+              "price": "16K"
+            },
+            {
+              "name": "Saigon Special 330ml",
+              "description": null,
+              "price": "22K"
+            }
+          ]
+        },
+        {
+          "section_name": "BIA CHAI",
+          "items": [
+            {
+              "name": "1664 Blanc Chai",
+              "description": null,
+              "price": "35K"
+            },
+            {
+              "name": "Tuborg Chai",
+              "description": null,
+              "price": "25K"
+            },
+            {
+              "name": "Heineken Bạc Chai",
+              "description": null,
+              "price": "27K"
+            },
+            {
+              "name": "Tiger Nâu Chai",
+              "description": null,
+              "price": "19K"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
