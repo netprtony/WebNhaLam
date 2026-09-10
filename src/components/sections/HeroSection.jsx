@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FloatingParticle from '../ui/FloatingParticle';
 
-// Danh sách các món chủ đạo thay đổi ngẫu nhiên ở giữa Hero
+// Danh sách các món chủ đạo thay đổi ngẫu nhiên ở giữa Hero — CHỈ LẤY TRONG /images/image_rvbg/
 const HERO_DISHES = [
   {
     id: 'goibo',
@@ -25,15 +25,6 @@ const HERO_DISHES = [
     description: 'Tôm sú tươi giòn xốt Thái chua cay chuẩn vị',
   },
   {
-    id: 'lau',
-    name: 'Lẩu Đặc Biệt Dốc Mơ Quán',
-    badge: '🍲 Lẩu Nghi Ngút Bốc Khói',
-    image: '/images/foods/lau.png',
-    price: '199K',
-    tag: 'Món Trùm Của Quán',
-    description: 'Thịt bò Mỹ, viên chiên, rau tươi và nước dùng đậm đà',
-  },
-  {
     id: 'muc',
     name: 'Mực Đại Dương Nướng Than',
     badge: '🍢 Mực Đại Dương Nướng',
@@ -52,13 +43,22 @@ const HERO_DISHES = [
     description: 'Nhân tôm thịt đậm đà, vỏ rế giòn rụm tan trong miệng',
   },
   {
-    id: 'boluclac',
-    name: 'Bò Lúc Lắc Cháy Tỏi',
-    badge: '🥩 Bò Lúc Lắc Cháy Tỏi',
-    image: '/images/foods/boluclac.png',
+    id: 'moi_nuong_photoroom',
+    name: 'Bò Tơ Nướng Chẩm Chéo',
+    badge: '🥩 Bò Tơ Nướng Chẩm Chéo',
+    image: '/images/image_rvbg/475407507_122135546654474964_3299941550278228008_n-Photoroom.png',
     price: '119K',
-    tag: 'Mồi Nhậu Bén',
-    description: 'Bò mềm xào ớt chuông, hành tây sốt tiêu đen đậm đà',
+    tag: 'Mồi Lửa Đậm Đà',
+    description: 'Bò nướng tẩm ướp gia vị chẩm chéo Tây Bắc cay thơm nức mũi',
+  },
+  {
+    id: 'thap_suon_cay',
+    name: 'Tháp Sườn Cay Núi Lửa',
+    badge: '🌋 Tháp Sườn Cay Núi Lửa',
+    image: '/images/image_rvbg/Gemini_Generated_Image_8bat8v8bat8v8bat.png',
+    price: '189K',
+    tag: 'Đặc Sản Độc Quyền',
+    description: 'Sườn hầm mềm róc xương, sốt ớt xanh chua cay ngập tràn',
   },
 ];
 

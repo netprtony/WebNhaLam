@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { rooms } from '../../data/rooms';
+import ImageLightboxModal from '../ui/ImageLightboxModal';
 
 const AtmosphereRooms = () => {
   const block1 = rooms?.[0];
   const block2 = rooms?.[1];
+  const [lightbox, setLightbox] = useState(null);
 
   return (
     <section id="khong-gian" className="py-20 md:py-32 px-4 md:px-8 bg-charcoal-light overflow-hidden">
@@ -15,7 +17,7 @@ const AtmosphereRooms = () => {
           KHÔNG GIAN TIỆC TÙNG
         </h2>
         <p className="text-amber-400 text-center mb-12 font-body text-base md:text-lg">
-          Thoáng mát ngoài trời hay ấm cúng VIP máy lạnh — Dốc Mơ Quán sẵn sàng phục vụ
+          Thoáng mát ngoài trời hay ấm cúng VIP máy lạnh — Bấm vào hình ảnh để xem phóng to
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -42,7 +44,8 @@ const AtmosphereRooms = () => {
                 {block1.images?.map((photo, i) => (
                   <div
                     key={i}
-                    className="relative group overflow-hidden rounded-xl aspect-[4/3] bg-charcoal-mid border border-white/5"
+                    onClick={() => setLightbox({ src: photo.src, title: block1.title, caption: photo.caption })}
+                    className="relative group overflow-hidden rounded-xl aspect-[4/3] bg-charcoal-mid border border-white/5 cursor-pointer"
                   >
                     <img
                       src={photo.src}
@@ -54,6 +57,9 @@ const AtmosphereRooms = () => {
                     <div className="absolute inset-0 bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     <div className="absolute bottom-2 left-2 right-2 text-xs text-white/95 font-medium line-clamp-1 drop-shadow">
                       {photo.caption}
+                    </div>
+                    <div className="absolute top-2 right-2 bg-charcoal/80 text-white text-[10px] px-1.5 py-0.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition">
+                      🔍 Xem
                     </div>
                   </div>
                 ))}
@@ -84,7 +90,8 @@ const AtmosphereRooms = () => {
                 {block2.images?.map((photo, i) => (
                   <div
                     key={i}
-                    className="relative group overflow-hidden rounded-xl aspect-[4/3] bg-charcoal-mid border border-white/5"
+                    onClick={() => setLightbox({ src: photo.src, title: block2.title, caption: photo.caption })}
+                    className="relative group overflow-hidden rounded-xl aspect-[4/3] bg-charcoal-mid border border-white/5 cursor-pointer"
                   >
                     <img
                       src={photo.src}
@@ -97,12 +104,24 @@ const AtmosphereRooms = () => {
                     <div className="absolute bottom-2 left-2 right-2 text-xs text-white/95 font-medium line-clamp-1 drop-shadow">
                       {photo.caption}
                     </div>
+                    <div className="absolute top-2 right-2 bg-charcoal/80 text-white text-[10px] px-1.5 py-0.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition">
+                      🔍 Xem
+                    </div>
                   </div>
                 ))}
               </div>
             </motion.div>
           )}
         </div>
+
+        {/* Lightbox zoom modal */}
+        <ImageLightboxModal
+          isOpen={!!lightbox}
+          onClose={() => setLightbox(null)}
+          imageSrc={lightbox?.src}
+          title={lightbox?.title}
+          caption={lightbox?.caption}
+        />
       </div>
     </section>
   );

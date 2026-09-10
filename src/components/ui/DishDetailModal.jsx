@@ -1,7 +1,13 @@
-import { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+'use client';
 
-export default function DishDetailModal({ isOpen, onClose, dish }) {
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { usePreBill, formatCurrency, parsePrice } from '../../context/PreBillContext';
+
+export default function DishDetailModal({ isOpen, onClose, dish, onProceedBooking }) {
+  const { addItem, updateQuantity, items, openDrawer } = usePreBill();
+  const [addedNotice, setAddedNotice] = useState(false);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -21,18 +27,27 @@ export default function DishDetailModal({ isOpen, onClose, dish }) {
   if (!dish) return null;
 
   const isSpecial = dish.name?.includes('***');
-  const cleanName = dish.name?.replace(/\*\*\*/g, '').trim();
+  const cleanName = dish.name?.replace(/\s*\*\*\*\s*/g, '').trim();
+  const priceNum = parsePrice(dish.price);
+
+  const cartItem = items.find((i) => i.name === cleanName);
+  const currentQty = cartItem ? cartItem.quantity : 0;
+
+  const handleAdd = () => {
+    addItem({ ...dish, name: cleanName });
+    setAddedNotice(true);
+    setTimeout(() => setAddedNotice(false), 2000);
+  };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 font-body">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
             onClick={onClose}
             className="absolute inset-0 bg-black/80 backdrop-blur-md"
           />
@@ -43,115 +58,119 @@ export default function DishDetailModal({ isOpen, onClose, dish }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-xl bg-brand-bg-deep border-2 border-brand-cream/35 rounded-2xl overflow-hidden shadow-2xl z-10 max-h-[92vh] flex flex-col text-brand-cream"
+            className="relative w-full max-w-lg bg-charcoal-light border border-amber-500/30 rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.9)] z-10 max-h-[92vh] flex flex-col text-gray-200"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-3.5 right-3.5 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-brand-bg-deep/80 hover:bg-brand-cream hover:text-brand-bg text-brand-cream flex items-center justify-center text-base font-bold transition-all border border-brand-cream/30 backdrop-blur-md"
+              className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-charcoal/80 hover:bg-amber-500 hover:text-charcoal text-white flex items-center justify-center text-sm font-bold transition-all border border-white/10 backdrop-blur-md"
               aria-label="Đóng"
             >
               ✕
             </button>
 
             {/* Dish Image */}
-            <div className="relative w-full h-64 sm:h-72 shrink-0 bg-brand-bg overflow-hidden">
+            <div className="relative w-full h-64 sm:h-72 shrink-0 bg-charcoal overflow-hidden group">
               <img
                 src={dish.image}
                 alt={cleanName}
-                className="w-full h-full object-cover filter brightness-90 contrast-105"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-bg-deep via-transparent to-black/30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-light via-transparent to-transparent opacity-90" />
 
-              {/* Badges on Image */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-2">
-                <div className="flex flex-wrap gap-2">
-                  {dish.badge && (
-                    <span className="px-2.5 py-0.5 rounded font-stencil text-xs font-black uppercase bg-brand-cream text-brand-bg shadow-md border border-brand-cream">
-                      {dish.badge}
-                    </span>
-                  )}
-                  {isSpecial && (
-                    <span className="px-2.5 py-0.5 rounded font-stencil text-xs font-black uppercase bg-brand-cream text-brand-bg shadow-md border border-brand-cream flex items-center gap-1">
-                      <span>🔥</span> MỒI BẾP TRƯỞNG KHUYÊN DÙNG
-                    </span>
-                  )}
-                  {dish.category && (
-                    <span className="px-2.5 py-0.5 rounded font-stencil text-[11px] font-bold text-brand-cream bg-brand-bg-deep/90 border border-brand-cream/40 uppercase">
-                      {dish.category} {dish.section ? `• ${dish.section}` : ''}
-                    </span>
-                  )}
+              {isSpecial && (
+                <div className="absolute top-4 left-4 bg-amber-500 text-charcoal font-bold text-xs px-3 py-1 rounded-full shadow-lg border border-amber-300 flex items-center gap-1">
+                  <span>⭐</span>
+                  <span>Món Bếp Trưởng Khuyên Dùng</span>
                 </div>
-              </div>
+              )}
+
+              {dish.section_name && (
+                <div className="absolute bottom-3 left-4 text-xs font-semibold text-amber-400 bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-sm border border-amber-500/30 uppercase tracking-wider">
+                  {dish.section_name}
+                </div>
+              )}
             </div>
 
-            {/* Dish Info Content */}
-            <div className="p-5 sm:p-6 overflow-y-auto flex-1 flex flex-col justify-between">
-              <div>
-                {/* Title & Price */}
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="font-retro text-2xl sm:text-3xl font-black text-brand-cream uppercase tracking-tight leading-snug">
-                      {cleanName}
-                    </h3>
-                    <p className="font-stencil text-xs text-brand-cream/70 uppercase tracking-wider mt-1 font-bold">
-                      DỐC MƠ QUÁN • 22 Đ. NGUYỄN ẢNH THỦ, HÓC MÔN
-                    </p>
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <span className="font-retro text-2xl sm:text-3xl font-black text-brand-cream tracking-tight">
-                      {dish.price}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Street Separator */}
-                <div className="flex items-center gap-2 my-4">
-                  <span className="w-12 h-1 bg-brand-cream/40 rounded-full" />
-                  <span className="w-1.5 h-1.5 rotate-45 bg-brand-cream" />
-                </div>
-
-                {/* Description */}
-                <div className="bg-brand-bg rounded-xl p-4 border border-brand-cream/20">
-                  <h4 className="font-stencil text-[11px] uppercase tracking-widest font-black text-brand-cream/80 mb-1.5">
-                    HƯƠNG VỊ & CHẾ BIẾN
-                  </h4>
-                  <p className="text-brand-cream/80 text-xs sm:text-sm leading-relaxed font-medium">
-                    {dish.description ||
-                      'Món ăn được chế biến từ nguyên liệu tươi ngon mỗi ngày, hòa quyện cùng gia vị đậm đà truyền thống đặc trưng của Dốc Mơ Quán.'}
+            {/* Content Body */}
+            <div className="p-6 overflow-y-auto space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-headline text-2xl sm:text-3xl text-white tracking-wide">
+                    {cleanName}
+                  </h3>
+                  <p className="text-gray-400 text-sm mt-1 leading-relaxed">
+                    {dish.description || 'Món nhậu đặc sắc, nguyên liệu tươi mới mỗi ngày, chế biến đậm đà chuẩn vị Dốc Mơ Quán.'}
                   </p>
                 </div>
-
-                {/* Features / Highlights */}
-                <div className="grid grid-cols-2 gap-2.5 mt-3.5">
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-brand-bg/60 border border-brand-cream/15 font-stencil text-xs text-brand-cream/80 font-bold uppercase">
-                    <span className="text-sm">🥬</span>
-                    <span>NGUYÊN LIỆU TƯƠI MỚI</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-brand-bg/60 border border-brand-cream/15 font-stencil text-xs text-brand-cream/80 font-bold uppercase">
-                    <span className="text-sm">♨️</span>
-                    <span>PHỤC VỤ NÓNG HỔI</span>
-                  </div>
+                <div className="text-right shrink-0">
+                  <span className="font-headline text-2xl sm:text-3xl text-amber-400 tracking-wide block">
+                    {dish.price}
+                  </span>
+                  {priceNum > 0 && (
+                    <span className="text-xs text-gray-500 block">
+                      {formatCurrency(priceNum)}
+                    </span>
+                  )}
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="mt-6 pt-4 border-t border-brand-cream/20 flex flex-col sm:flex-row gap-3">
-                <a
-                  href="tel:0984586248"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded bg-brand-cream text-brand-bg font-retro font-black text-xs uppercase tracking-wider hover:bg-brand-cream-light transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-95 border border-brand-cream"
+              {/* Notice when added */}
+              {addedNotice && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-green-500/10 border border-green-500/30 text-green-400 px-3.5 py-2 rounded-xl text-xs flex items-center justify-between"
                 >
-                  <span>☎</span> GỌI ĐẶT MÓN: 0984 586 248
-                </a>
-                <a
-                  href="https://zalo.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded border border-brand-cream text-brand-cream font-stencil font-bold text-xs uppercase tracking-wider hover:bg-brand-cream/15 transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-95"
+                  <span>✓ Đã thêm vào danh sách tạm tính!</span>
+                  <button onClick={openDrawer} className="underline font-bold text-amber-400 hover:text-white ml-2">
+                    Xem bill ngay
+                  </button>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Modal Actions */}
+            <div className="p-5 border-t border-white/10 bg-charcoal flex flex-col sm:flex-row gap-3 items-center">
+              {currentQty > 0 ? (
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start bg-charcoal-surface border border-white/10 px-3 py-2 rounded-2xl">
+                  <button
+                    onClick={() => updateQuantity(cleanName, -1)}
+                    className="w-8 h-8 rounded-xl bg-charcoal-light hover:bg-amber-500 hover:text-charcoal text-white font-bold transition flex items-center justify-center text-sm"
+                  >
+                    -
+                  </button>
+                  <span className="font-bold text-amber-400 text-sm px-2">
+                    {currentQty} phần trong bill
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(cleanName, 1)}
+                    className="w-8 h-8 rounded-xl bg-charcoal-light hover:bg-amber-500 hover:text-charcoal text-white font-bold transition flex items-center justify-center text-sm"
+                  >
+                    +
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleAdd}
+                  className="w-full sm:w-auto flex-1 py-3 px-5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-charcoal font-bold text-sm transition shadow-glow-amber active:scale-95 flex items-center justify-center gap-2"
                 >
-                  <span>💬</span> NHẮN ZALO ĐẶT BÀN
-                </a>
-              </div>
+                  <span>+</span>
+                  <span>Thêm vào tạm tính</span>
+                </button>
+              )}
+
+              <button
+                onClick={() => {
+                  if (currentQty === 0) addItem({ ...dish, name: cleanName });
+                  onClose();
+                  onProceedBooking?.();
+                }}
+                className="w-full sm:w-auto py-3 px-6 rounded-2xl bg-gradient-to-r from-chiliRed to-amber-500 hover:brightness-110 text-white font-bold text-sm transition shadow-glow-amber active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
+              >
+                <span>🍖</span>
+                <span>Đặt bàn giữ món này</span>
+              </button>
             </div>
           </motion.div>
         </div>

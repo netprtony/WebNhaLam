@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { PreBillProvider } from '../context/PreBillContext';
 import MarqueeTicker from '../components/layout/MarqueeTicker';
 import Navbar from '../components/layout/Navbar';
 import HeroSection from '../components/sections/HeroSection';
@@ -12,6 +13,8 @@ import SocialProof from '../components/sections/SocialProof';
 import Footer from '../components/layout/Footer';
 import FloatingActionDock from '../components/layout/FloatingActionDock';
 import BookingModal from '../components/modals/BookingModal';
+import PreBillDrawer from '../components/modals/PreBillDrawer';
+import PreBillFloatingBar from '../components/layout/PreBillFloatingBar';
 
 export default function Home() {
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -20,7 +23,7 @@ export default function Home() {
   const closeBooking = () => setBookingOpen(false);
 
   return (
-    <>
+    <PreBillProvider>
       <MarqueeTicker />
       <Navbar onBooking={openBooking} />
 
@@ -34,7 +37,7 @@ export default function Home() {
         </section>
 
         <section id="thuc-don">
-          <MenuGrid />
+          <MenuGrid onProceedBooking={openBooking} />
         </section>
 
         <section id="khuyen-mai">
@@ -52,7 +55,15 @@ export default function Home() {
 
       <Footer />
       <FloatingActionDock onBooking={openBooking} />
+      
+      {/* Drawer tính tiền tạm tính */}
+      <PreBillDrawer onProceedBooking={openBooking} />
+
+      {/* Thanh dock hiển thị tiền tạm tính nổi */}
+      <PreBillFloatingBar onProceedBooking={openBooking} />
+
+      {/* Modal đặt bàn 4 bước kèm chọn món trước */}
       <BookingModal isOpen={bookingOpen} onClose={closeBooking} />
-    </>
+    </PreBillProvider>
   );
 }

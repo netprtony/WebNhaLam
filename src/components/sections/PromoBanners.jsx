@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
+import ImageLightboxModal from '../ui/ImageLightboxModal';
 
 const banners = [
   '/images/banner-khuyen-mai/668553529_122188596584474964_7807259678248001827_n.jpg',
@@ -19,6 +20,7 @@ const banners = [
 const PromoBanners = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -58,9 +60,11 @@ const PromoBanners = () => {
   return (
     <section id="khuyen-mai" className="py-20 md:py-32 px-4 md:px-8 bg-charcoal">
       <div className="container mx-auto max-w-7xl">
-        <h2 className="font-headline text-4xl md:text-5xl text-center text-white mb-2 uppercase">ƯU ĐÃI HOT</h2>
-        <p className="text-amber-400 text-center mb-12 font-body">
-          Săn ngàn deal hời, ăn chơi xả láng
+        <h2 className="font-headline text-4xl md:text-5xl text-center text-white mb-2 uppercase tracking-wide">
+          ƯU ĐÃI HOT
+        </h2>
+        <p className="text-amber-400 text-center mb-12 font-body text-base md:text-lg">
+          Săn ngàn deal hời, ăn chơi xả láng — Bấm vào banner để phóng to xem chi tiết
         </p>
 
         <div className="relative">
@@ -71,14 +75,20 @@ const PromoBanners = () => {
                   key={index}
                   className="flex-[0_0_90%] md:flex-[0_0_45%] lg:flex-[0_0_33.333%] pl-4 min-w-0"
                 >
-                  <div className="rounded-2xl overflow-hidden aspect-[3/4] relative group border border-transparent hover:border-amber-400/50 transition-colors duration-300">
+                  <div 
+                    onClick={() => setLightboxImage({ src, title: `Khuyến mãi #${index + 1}` })}
+                    className="rounded-2xl overflow-hidden aspect-[3/4] relative group border border-transparent hover:border-amber-400/50 transition-colors duration-300 cursor-pointer shadow-lg"
+                  >
                     <img 
                       src={src} 
-                      alt={`Khuyen mai ${index + 1}`} 
+                      alt={`Khuyến mãi ${index + 1}`} 
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />
                     {/* Hover Glow Effect */}
                     <div className="absolute inset-0 ring-2 ring-amber-400 opacity-0 group-hover:opacity-100 group-hover:shadow-[0_0_15px_rgba(251,191,36,0.5)] transition-all duration-300 rounded-2xl pointer-events-none" />
+                    <div className="absolute bottom-3 right-3 bg-charcoal/80 text-white text-xs px-2.5 py-1 rounded-md backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      <span>🔍 Phóng to</span>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -108,7 +118,6 @@ const PromoBanners = () => {
           
           {/* Dots */}
           <div className="flex justify-center gap-2 mt-8">
-            {/* Limit dots if too many banners to prevent clutter, but for now show all or chunks */}
             {banners.map((_, index) => (
               <button
                 key={index}
@@ -121,6 +130,15 @@ const PromoBanners = () => {
             ))}
           </div>
         </div>
+
+        {/* Lightbox Modal */}
+        <ImageLightboxModal
+          isOpen={!!lightboxImage}
+          onClose={() => setLightboxImage(null)}
+          imageSrc={lightboxImage?.src}
+          title={lightboxImage?.title}
+          caption="Chương trình ưu đãi có hạn tại Dốc Mơ Quán — Liên hệ hotline 0984 586 248 để áp dụng"
+        />
       </div>
     </section>
   );
