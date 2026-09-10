@@ -20,7 +20,8 @@ const MenuGrid = () => {
       try {
         const res = await fetch('/menu.json');
         const data = await res.json();
-        setMenuData(data);
+        const categories = Array.isArray(data) ? data : (data.restaurant_menu || []);
+        setMenuData(categories);
       } catch (error) {
         console.error("Failed to load menu data", error);
       } finally {
@@ -31,17 +32,23 @@ const MenuGrid = () => {
   }, []);
 
   const getFilteredItems = () => {
-    if (!menuData || menuData.length === 0) return [];
+    if (!menuData || !Array.isArray(menuData) || menuData.length === 0) return [];
     const currentTabKeys = TABS[activeTab].keys;
     
     let items = [];
-    menuData.forEach(section => {
-      if (currentTabKeys.includes(section.section_name)) {
-        const sectionItems = section.items.map(item => ({
-          ...item,
-          section_name: section.section_name
-        }));
-        items = [...items, ...sectionItems];
+    menuData.forEach(cat => {
+      if (currentTabKeys.includes(cat.category)) {
+        if (cat.sections && Array.isArray(cat.sections)) {
+          cat.sections.forEach(section => {
+            if (section.items && Array.isArray(section.items)) {
+              const sectionItems = section.items.map(item => ({
+                ...item,
+                section_name: section.section_name || cat.category
+              }));
+              items = [...items, ...sectionItems];
+            }
+          });
+        }
       }
     });
     return items;
@@ -91,33 +98,41 @@ const MenuGrid = () => {
           ) : (
             <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="popLayout">
-                {filteredItems.map((item, index) => (
-                  <motion.div
-                    key={`${item.name}-${index}`}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3, delay: index * 0.03 }}
-                    className="bg-charcoal-light border border-gray-800 rounded-xl p-5 flex justify-between items-start gap-4 hover:border-amber-500/30 transition-colors group"
-                  >
-                    <div className="flex-1">
-                      <h4 className="font-bold text-white text-lg flex items-center gap-1">
-                        {item.name}
-                        {item.name.includes('***') && <span className="text-amber-400 text-sm" title="Chef's Recommendation">⭐</span>}
-                      </h4>
-                      {item.description && (
-                        <p className="text-sm text-gray-400 mt-1 line-clamp-2">{item.description}</p>
-                      )}
-                      <span className="inline-block mt-2 text-xs text-amber-400/70 uppercase tracking-wider font-semibold bg-amber-500/10 px-2 py-0.5 rounded">
-                        {item.section_name}
-                      </span>
-                    </div>
-                    <div className="text-amber-400 font-bold text-lg whitespace-nowrap mt-1 font-headline tracking-wide">
-                      {item.price}
-                    </div>
-                  </motion.div>
-                ))}
+                {filteredItems.map((item, index) => {
+                  const isChefSpecial = item.name?.includes('***');
+                  const cleanName = item.name ? item.name.replace(/\s*\*\*\*\s*/g, '').trim() : '';
+                  return (
+                    <motion.div
+                      key={`${item.name}-${index}`}
+                      layout
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3, delay: index * 0.03 }}
+                      className="bg-charcoal-light border border-gray-800 rounded-xl p-5 flex justify-between items-start gap-4 hover:border-amber-500/30 transition-colors group"
+                    >
+                      <div className="flex-1">
+                        <h4 className="font-bold text-white text-lg flex items-center gap-2 flex-wrap">
+                          <span>{cleanName}</span>
+                          {isChefSpecial && (
+                            <span className="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-normal border border-amber-500/30 flex items-center gap-1">
+                              ⭐ Món Bếp Trưởng
+                            </span>
+                          )}
+                        </h4>
+                        {item.description && (
+                          <p className="text-sm text-gray-400 mt-1 line-clamp-2">{item.description}</p>
+                        )}
+                        <span className="inline-block mt-2 text-xs text-amber-400/70 uppercase tracking-wider font-semibold bg-amber-500/10 px-2 py-0.5 rounded">
+                          {item.section_name}
+                        </span>
+                      </div>
+                      <div className="text-amber-400 font-bold text-lg whitespace-nowrap mt-1 font-headline tracking-wide">
+                        {item.price}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
             </motion.div>
           )}
