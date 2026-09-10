@@ -188,13 +188,13 @@ export default function PromoBanners() {
   return (
     <section
       id="khuyen-mai"
-      className="section-padding bg-gradient-to-b from-brand-olive/5 via-brand-cream/20 to-white relative overflow-hidden"
+      className="section-padding bg-brand-bg-alt/95 relative overflow-hidden border-b border-brand-cream/15"
     >
       <div className="max-w-7xl mx-auto">
         <SectionHeading
-          title="Khuyến Mãi Hot"
-          subtitle="Combo siêu hời, ưu đãi có hạn — đừng bỏ lỡ!"
-          emoji="🎉"
+          title="KÈO THƠM • ƯU ĐÃI NÓNG"
+          subtitle="Combo siêu hời, bia lạnh mồi bén — ghé Dốc Mơ Quán lên bàn liền!"
+          emoji="🔥"
         />
 
         {/* Carousel Container with Framer Motion entrance animation */}
@@ -228,9 +228,9 @@ export default function PromoBanners() {
                 >
                   <div
                     onClick={() => setLightboxImg(banner)}
-                    className="group relative cursor-pointer overflow-hidden rounded-2xl bg-white border border-brand-charcoal/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:warm-shadow"
+                    className="group relative cursor-pointer overflow-hidden rounded-2xl bg-brand-bg-surface border-2 border-brand-cream/25 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-cream hover:shadow-2xl"
                   >
-                    <div className="aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden relative bg-brand-cream/30">
+                    <div className="aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden relative bg-brand-bg-deep">
                       <img
                         src={banner.src}
                         alt={banner.alt}
@@ -239,34 +239,34 @@ export default function PromoBanners() {
                       />
 
                       {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal/80 via-brand-charcoal/20 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-bg-deep/95 via-brand-bg-deep/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
 
-                      {/* Hot Badge */}
+                      {/* Hot Badge - Street Style */}
                       <div className="absolute top-3.5 right-3.5">
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-brand-clay text-white shadow-md">
-                          🔥 Hot Deal
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded font-stencil text-xs font-black uppercase bg-brand-cream text-brand-bg shadow-md border border-brand-cream">
+                          🔥 HOT DEAL
                         </span>
                       </div>
 
                       {/* Bottom Banner Info */}
-                      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-white">
-                        <h3 className="font-display text-lg sm:text-xl font-bold line-clamp-1 drop-shadow-sm text-brand-cream">
+                      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-brand-cream">
+                        <h3 className="font-retro text-lg sm:text-xl font-black uppercase line-clamp-1 drop-shadow-sm text-brand-cream">
                           {banner.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-brand-cream/80 flex items-center gap-1.5 mt-1.5 font-medium">
-                          <span className="inline-block transition-transform duration-300 group-hover:scale-110">🔍</span>
-                          <span>Chạm để xem chi tiết ưu đãi</span>
+                        <p className="font-stencil text-xs text-brand-cream/80 flex items-center gap-1.5 mt-1 font-bold uppercase tracking-wider">
+                          <span className="inline-block transition-transform duration-300 group-hover:scale-125">🔍</span>
+                          <span>Chạm phóng to xem chi tiết</span>
                         </p>
                       </div>
 
                       {/* Center Hover Magnifier Icon */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <span className="w-12 h-12 rounded-full bg-brand-olive/90 text-white flex items-center justify-center shadow-lg backdrop-blur-sm transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                        <span className="w-12 h-12 rounded-full bg-brand-cream text-brand-bg flex items-center justify-center shadow-xl font-bold transform scale-75 group-hover:scale-100 transition-transform duration-300">
                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              strokeWidth={2}
+                              strokeWidth={2.5}
                               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
                             />
                           </svg>
@@ -284,10 +284,10 @@ export default function PromoBanners() {
             type="button"
             onClick={prevSlide}
             aria-label="Banner trước"
-            className="absolute -left-2 sm:-left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-brand-olive hover:bg-brand-olive-dark text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-clay"
+            className="absolute -left-2 sm:-left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-brand-cream hover:bg-brand-cream-light text-brand-bg shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-brand-bg-deep focus:outline-none"
           >
             <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
@@ -296,10 +296,10 @@ export default function PromoBanners() {
             type="button"
             onClick={nextSlide}
             aria-label="Banner tiếp theo"
-            className="absolute -right-2 sm:-right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-brand-olive hover:bg-brand-olive-dark text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-clay"
+            className="absolute -right-2 sm:-right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-brand-cream hover:bg-brand-cream-light text-brand-bg shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-brand-bg-deep focus:outline-none"
           >
             <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
             </svg>
           </button>
 
@@ -311,10 +311,10 @@ export default function PromoBanners() {
                 type="button"
                 onClick={() => setCurrentIndex(idx)}
                 aria-label={`Chuyển tới slide ${idx + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
+                className={`h-2 rounded-full transition-all duration-300 ${
                   currentIndex === idx
-                    ? 'w-8 bg-brand-clay'
-                    : 'w-2.5 bg-brand-charcoal/20 hover:bg-brand-charcoal/40'
+                    ? 'w-8 bg-brand-cream'
+                    : 'w-2 bg-brand-cream/25 hover:bg-brand-cream/50'
                 }`}
               />
             ))}
@@ -322,23 +322,25 @@ export default function PromoBanners() {
 
           {/* Call-to-action note below banner carousel */}
           <div className="mt-8 sm:mt-10 text-center">
-            <p className="text-sm md:text-base text-brand-charcoal/75 mb-4">
-              💡 Ưu đãi có thể áp dụng đồng thời khi đặt bàn trước. Gọi ngay hotline để được tư vấn combo phù hợp nhất!
+            <p className="font-stencil text-xs sm:text-sm text-brand-cream/70 mb-4 uppercase tracking-wider">
+              💡 Ưu đãi có thể áp dụng khi đặt bàn trước. Gọi ngay để Dốc Mơ Quán chuẩn bị mồi bén!
             </p>
             <div className="inline-flex flex-wrap items-center justify-center gap-3">
               <a
                 href="tel:0984586248"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-md"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded bg-brand-cream text-brand-bg font-retro font-extrabold text-xs uppercase tracking-wider hover:bg-brand-cream-light transition-all duration-300 hover:scale-105 shadow-lg active:scale-95 border border-brand-cream"
               >
-                📞 Đặt Bàn Nhận Ưu Đãi
+                <span>☎</span>
+                <span>GỌI ĐẶT BÀN NHẬN ƯU ĐÃI</span>
               </a>
               <a
                 href="https://zalo.me/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-zalo hover:bg-blue-700 text-white font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-md"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded border border-brand-cream text-brand-cream font-stencil font-bold text-xs uppercase tracking-wider hover:bg-brand-cream/15 transition-all duration-300 hover:scale-105 shadow-md active:scale-95"
               >
-                💬 Tư Vấn Qua Zalo
+                <span>💬</span>
+                <span>TƯ VẤN QUA ZALO</span>
               </a>
             </div>
           </div>

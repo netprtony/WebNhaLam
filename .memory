@@ -1,17 +1,18 @@
-# DỰ ÁN WEBSITE QUÁN ĂN "DỐC MƠ — ẨM THỰC VIỆT" (.MEMORY)
+# DỰ ÁN WEBSITE QUÁN ĂN "DỐC MƠ QUÁN — ẨM THỰC PHỐ & LAI RAI" (.MEMORY)
 
 Tài liệu ghi nhớ toàn diện về dự án dành cho nhà phát triển, AI agent và người bảo trì trong tương lai.
 
 ---
 
 ## 1. THÔNG TIN THƯƠNG HIỆU & ĐỊA ĐIỂM
-- **Tên thương hiệu**: Dốc Mơ — Ẩm Thực Việt
-- **Slogan / Thông điệp**: "Hương Vị Sum Vầy — Đậm Vị Mồi Ngon" / "Nơi gia đình quây quần, bạn bè nâng ly — mỗi món ăn là một câu chuyện quê nhà."
+- **Tên thương hiệu chính thức**: Dốc Mơ Quán
+- **Định vị & Phong cách**: Ẩm Thực Phố & Bàn Nhậu Sum Vầy — Mồi Bén Bia Lạnh
+- **Slogan / Thông điệp**: "Hương Vị Sum Vầy — Đậm Vị Mồi Ngon" / "Bàn nhậu phố xá, mồi bén bia lạnh, nơi anh em bạn bè quây quần sau giờ làm."
 - **Địa chỉ thực tế**: 22 Đ. Nguyễn Ảnh Thủ, Bà Điểm, Hóc Môn, TP. Hồ Chí Minh 70000, Việt Nam
 - **Hotline đặt bàn / đặt món**: 0984 586 248 (`tel:0984586248`)
-- **Zalo OA / Chat**: `https://zalo.me/` (hoặc gắn số điện thoại 0984586248)
+- **Zalo OA / Chat**: `https://zalo.me/`
 - **Giờ hoạt động**: 10:00 – 23:00 (tất cả các ngày trong tuần)
-- **Google Maps**: Toạ độ Bà Điểm, Hóc Môn (có liên kết Google Maps chỉ đường trực tiếp)
+- **Google Maps**: 22 Đ. Nguyễn Ảnh Thủ, Bà Điểm, Hóc Môn
 
 ---
 
@@ -21,22 +22,26 @@ Tài liệu ghi nhớ toàn diện về dự án dành cho nhà phát triển, A
 - **Styling**: Tailwind CSS v3 + PostCSS + Autoprefixer
 - **Animations & Interactivity**: Framer Motion (`framer-motion`)
 - **Typography**: 
-  - Tiêu đề (Headings): `Playfair Display` (Serif cổ điển sang trọng)
-  - Thân bài (Body): `Be Vietnam Pro` (Sans-serif hiện đại, tối ưu tiếng Việt)
-- **Hosting / Deployment Target**: Cloudflare Pages (kết nối trực tiếp GitHub repository)
-- **Source Repository**: `https://github.com/netprtony/WebNhaLam.git` (nhánh chính hiện tại: `Basic-DichVuNauAn`)
+  - Tiêu đề & Logo (Display Sans-Serif Retro / Vintage Grotesk): `Syne` (800 ExtraBold) + `Be Vietnam Pro` (900 Black) kết hợp Negative Space Cutout cho chữ `QUÁN`.
+  - Stencil / Street badges: `Chakra Petch` (700 Bold).
+  - Thân bài (Body): `Be Vietnam Pro` (Sans-serif hiện đại, tối ưu 100% dấu tiếng Việt).
+- **Hosting / Deployment Target**: Cloudflare Pages (tên miền tùy chỉnh: `docmoquan.vn`)
+- **Source Repository**: `https://github.com/netprtony/WebNhaLam.git`
 
 ---
 
-## 3. HỆ THỐNG MÀU SẮC (BRAND DESIGN SYSTEM)
-Được định nghĩa tại `tailwind.config.js`:
-- `brand.olive` (`#3E5641`): Xanh lá đậm chủ đạo, tượng trưng cho cây thông Dốc Mơ, thiên nhiên, mộc mạc.
-- `brand.olive-dark` (`#2d3f2f`): Tông nhấn khi hover nút, header.
-- `brand.clay` (`#B8654A`): Màu đất nung gốm sứ truyền thống, dùng cho các nút CTA chính, giá món ăn.
-- `brand.bamboo` (`#C9A876`): Màu tre nứa, dùng cho subheadings, đường kẻ trang trí.
-- `brand.cream` (`#F5EDE0`): Nền be ấm áp, thay thế màu trắng thô ráp, gợi cảm giác hoài niệm.
-- `brand.charcoal` (`#2A2420`): Màu than củi, đen ấm dùng cho văn bản, độ tương phản cao và dễ đọc.
-- `zalo` (`#0068FF`): Xanh thương hiệu Zalo.
+## 3. HỆ THỐNG MÀU SẮC CHUẨN (DARK OLIVE & CREAM RETRO STREET)
+- **Màu nền (Background)**: Xanh rêu đậm / Xanh lục quân đội (Dark Olive / Army Green).
+  - Mã HEX: `#3D4726` hoặc `#3B4423` (RGB: 61, 71, 38)
+  - Biến thể nền sâu: `#2E361C`, bề mặt thẻ mồi: `#47532D` / `#444F2B`.
+- **Màu họa tiết & chữ (Foreground)**: Màu be / vàng kem nhạt (Cream / Pale Beige).
+  - Mã HEX: `#F7DFBF` hoặc `#F9E2C4` (RGB: 247, 223, 191)
+- **Màu điểm nhấn mồi nhậu & đường phố**:
+  - `brand.clay`: `#D45D38` (Đất nung / ớt cay)
+  - `brand.amber`: `#EAA838` (Vàng đèn lồng / bia bọt)
+- **Họa tiết & Kỹ thuật hình ảnh**:
+  - Reverse Contrast / Negative Space cutouts: Chữ `QUÁN` được đổ nền Cream và chữ màu Dark Olive nổi bật bên cạnh `DỐC MƠ`.
+  - Icon mang tính đường phố: Đũa 🥢, xiên nướng 🍢, chảo xào lửa lớn 🥘, than hồng ♨️, đá lạnh 🧊, cụng bia 🍻, xe máy 🛵, đèn lồng 🏮.
 
 ---
 
