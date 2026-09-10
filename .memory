@@ -1,0 +1,179 @@
+# DỰ ÁN WEBSITE QUÁN ĂN "DỐC MƠ QUÁN — ẨM THỰC PHỐ & LAI RAI" (.MEMORY)
+
+Tài liệu ghi nhớ toàn diện về dự án dành cho nhà phát triển, AI agent và người bảo trì trong tương lai.
+
+---
+
+## 1. THÔNG TIN THƯƠNG HIỆU & ĐỊA ĐIỂM
+- **Tên thương hiệu chính thức**: Dốc Mơ Quán
+- **Định vị & Phong cách**: Ẩm Thực Phố & Bàn Nhậu Sum Vầy — Mồi Bén Bia Lạnh
+- **Slogan / Thông điệp**: "Hương Vị Sum Vầy — Đậm Vị Mồi Ngon" / "Bàn nhậu phố xá, mồi bén bia lạnh, nơi anh em bạn bè quây quần sau giờ làm."
+- **Địa chỉ thực tế**: 22 Đ. Nguyễn Ảnh Thủ, Bà Điểm, Hóc Môn, TP. Hồ Chí Minh 70000, Việt Nam
+- **Hotline đặt bàn / đặt món**: 0984 586 248 (`tel:0984586248`)
+- **Zalo OA / Chat**: `https://zalo.me/`
+- **Giờ hoạt động**: 10:00 – 23:00 (tất cả các ngày trong tuần)
+- **Google Maps**: 22 Đ. Nguyễn Ảnh Thủ, Bà Điểm, Hóc Môn
+
+---
+
+## 2. TECH STACK & CÔNG NGHỆ
+- **Frontend Framework**: React 18 (Hooks, SPA architecture)
+- **Build Tool / Bundler**: Vite 6 (ESM, Fast HMR, zero-config build)
+- **Styling**: Tailwind CSS v3 + PostCSS + Autoprefixer
+- **Animations & Interactivity**: Framer Motion (`framer-motion`)
+- **Typography**: 
+  - Tiêu đề & Logo (Display Sans-Serif Retro / Vintage Grotesk): `Syne` (800 ExtraBold) + `Be Vietnam Pro` (900 Black) kết hợp Negative Space Cutout cho chữ `QUÁN`.
+  - Stencil / Street badges: `Chakra Petch` (700 Bold).
+  - Thân bài (Body): `Be Vietnam Pro` (Sans-serif hiện đại, tối ưu 100% dấu tiếng Việt).
+- **Hosting / Deployment Target**: Cloudflare Pages (tên miền tùy chỉnh: `docmoquan.vn`)
+- **Source Repository**: `https://github.com/netprtony/WebNhaLam.git`
+
+---
+
+## 3. HỆ THỐNG MÀU SẮC CHUẨN (DARK OLIVE & CREAM RETRO STREET)
+- **Màu nền (Background)**: Xanh rêu đậm / Xanh lục quân đội (Dark Olive / Army Green).
+  - Mã HEX: `#3D4726` hoặc `#3B4423` (RGB: 61, 71, 38)
+  - Biến thể nền sâu: `#2E361C`, bề mặt thẻ mồi: `#47532D` / `#444F2B`.
+- **Màu họa tiết & chữ (Foreground)**: Màu be / vàng kem nhạt (Cream / Pale Beige).
+  - Mã HEX: `#F7DFBF` hoặc `#F9E2C4` (RGB: 247, 223, 191)
+- **Màu điểm nhấn mồi nhậu & đường phố**:
+  - `brand.clay`: `#D45D38` (Đất nung / ớt cay)
+  - `brand.amber`: `#EAA838` (Vàng đèn lồng / bia bọt)
+- **Họa tiết & Kỹ thuật hình ảnh**:
+  - Reverse Contrast / Negative Space cutouts: Chữ `QUÁN` được đổ nền Cream và chữ màu Dark Olive nổi bật bên cạnh `DỐC MƠ`.
+  - Icon mang tính đường phố: Đũa 🥢, xiên nướng 🍢, chảo xào lửa lớn 🥘, than hồng ♨️, đá lạnh 🧊, cụng bia 🍻, xe máy 🛵, đèn lồng 🏮.
+
+---
+
+## 4. CẤU TRÚC THƯ MỤC DỰ ÁN
+```
+d:\WebNhaLam\
+├── .gitignore              # Bỏ qua node_modules, dist, logs
+├── .memory                 # File này: Tổng hợp tri thức dự án
+├── implement_plan.md       # Bản kế hoạch thiết kế và thông số ban đầu
+├── index.html              # Entry HTML, load Google Fonts tiếng Việt
+├── package.json            # Scripts & dependencies
+├── tailwind.config.js      # Cấu hình màu brand, font, keyframes
+├── vite.config.js          # Cấu hình Vite React plugin
+├── public/                 # Tài nguyên tĩnh trực tiếp
+│   ├── menu.json           # Dữ liệu thực đơn nhà hàng (6 danh mục, hơn 60 món)
+│   └── images/
+│       ├── Logo/           # Logo Dốc Mơ (main_logo, main_logo-removebg-preview)
+│       ├── foods/          # Kho ảnh món ăn thực tế (hơn 70 ảnh món chất lượng cao)
+│       ├── KhongGian/      # Ảnh chụp không gian quán (khu gia đình, sân vườn ngoài trời)
+│       └── banner-khuyen-mai/ # 10 poster combo/món mới/ưu đãi
+└── src/
+    ├── main.jsx            # Entry point React DOM
+    ├── App.jsx             # Gom toàn bộ các layout và section theo thứ tự chuẩn
+    ├── index.css           # Cấu hình Tailwind directives & custom utilities
+    ├── hooks/
+    │   ├── useScrollSpy.js       # Tự động bắt section đang xem để active link trên Navbar
+    │   └── useScrollDirection.js # Nhận diện hướng cuộn để ẩn/hiện Floating Dock thông minh
+    ├── data/
+    │   ├── menuItems.js    # Dữ liệu món ăn nổi bật (Highlight Bento) + danh mục phụ
+    │   ├── reviews.js      # Đánh giá khách hàng & điểm rating 4.8⭐
+    │   └── gallery.js      # Danh sách ảnh không gian chia theo 'family' & 'outdoor'
+    └── components/
+        ├── layout/
+        │   ├── Navbar.jsx              # Thanh menu cố định, scroll-spy, drawer di động
+        │   ├── Footer.jsx              # Thông tin quán, giờ mở cửa, hotline, liên kết
+        │   └── FloatingActionDock.jsx  # Thanh hành động đáy màn hình (gọi, zalo, đặt bàn)
+        ├── sections/
+        │   ├── Hero.jsx                # Banner đầu trang, Ken Burns zoom, badge giờ mở cửa
+        │   ├── PromoBanners.jsx        # Carousel khuyến mãi tự động trượt, có Lightbox
+        │   ├── HighlightMenu.jsx       # Bento Grid 6 món signature, popup chi tiết món
+        │   ├── FullMenu.jsx            # Thực đơn đầy đủ fetch từ menu.json, tab filter, popup
+        │   ├── AmbianceSpaces.jsx      # Không gian quán theo tab (Gia Đình / Ngoài Trời), Lightbox
+        │   ├── SocialProof.jsx         # Đánh giá Google, số đếm rating động (Counter)
+        │   └── LocationContact.jsx     # Google Maps nhúng iframe + bảng thông tin liên hệ
+        └── ui/
+            ├── DishDetailModal.jsx     # Popup xem chi tiết món ăn khi nhấp vào bất kỳ món nào
+            ├── MenuCard.jsx            # Card món ăn mục Highlight
+            ├── ReviewCard.jsx          # Card đánh giá khách hàng
+            └── SectionHeading.jsx      # Tiêu đề chuẩn hoá cho các section
+```
+
+---
+
+## 5. CÁC TÍNH NĂNG CHÍNH ĐÃ TRIỂN KHAI
+
+### 1. Navigation Bar (Sticky & Scroll-Spy)
+- Khi ở trên cùng: Nền trong suốt, chữ trắng nổi trên Hero.
+- Khi cuộn xuống (>80px): Chuyển thành nền trắng mờ hiệu ứng kính (`backdrop-blur-md`), đổ bóng nhẹ.
+- Tích hợp `IntersectionObserver` tự động đánh dấu mục đang xem: Khuyến Mãi, Món Ngon, Thực Đơn, Không Gian, Đánh Giá, Vị Trí.
+- Giao diện di động có menu dạng ngăn kéo trượt (drawer) mượt mà.
+
+### 2. Hero Section
+- Nền ảnh không gian quán chạy animation chuyển động chậm Ken Burns (`ken-burns`).
+- Badge tính toán thời gian thực: Hiển thị chấm xanh nhấp nháy "Đang mở cửa" nếu trong khoảng 10:00 - 23:00.
+- Hai nút CTA: "🍽️ Đặt Bàn Ngay" (gọi hotline) và "Xem Thực Đơn ↓" (cuộn mượt xuống).
+
+### 3. Carousel Khuyến Mãi Hot (`PromoBanners.jsx`)
+- Tự động chạy mỗi 4 giây, hỗ trợ dừng khi di chuột hoặc mở phóng to.
+- Responsive linh hoạt: 1 banner (mobile), 2 banner (tablet), 3 banner (desktop).
+- Hỗ trợ vuốt ngón tay (Touch Swipe) trên smartphone.
+- Nhấp vào banner bất kỳ sẽ mở phóng to toàn màn hình (Lightbox) kèm nút chuyển ảnh và phím ESC.
+
+### 4. Chi Tiết Món Ăn Tương Tác (`DishDetailModal.jsx`)
+- Bấm vào bất kỳ món ăn nào (trong Highlight Menu hoặc Full Menu) sẽ mở modal chi tiết:
+  - Ảnh món ăn khổ lớn.
+  - Tên món, huy hiệu "Món Bếp Trưởng Khuyên Dùng" (dựa trên dấu `***` trong menu gốc).
+  - Giá bán nổi bật.
+  - Mô tả nguyên liệu tươi sạch, chế biến nóng hổi.
+  - Nút gọi hotline `0984 586 248` hoặc mở Zalo trao đổi ngay tức thì.
+
+### 5. Thực Đơn Toàn Diện (`FullMenu.jsx`)
+- Đọc động từ `public/menu.json` gồm 6 nhóm: Khai Vị, Lai Rai, Món Xào, Lẩu & Nướng, Trà & Nước Ngọt, Bia Các Loại.
+- Chuyển đổi tab danh mục mượt mà với hiệu ứng `AnimatePresence`.
+- Tự động gán ảnh thực tế từ kho ảnh `foods/` cho từng món ăn.
+
+### 6. Thư Viện Không Gian Quán (`AmbianceSpaces.jsx`)
+- 2 chế độ xem: "🏠 Khu Gia Đình (Mát Lạnh)" và "🌿 Khu Nhậu (Thoáng Mát)".
+- Khung ảnh bố cục phong cách Masonry đa dạng tỉ lệ (vuông, dài, ngang).
+- Nhấp vào ảnh để xem chi tiết ở kích thước tối đa.
+
+### 7. Thanh Hành Động Cố Định (Floating Action Dock)
+- **Trên Mobile**: Thanh dock cố định sát đáy màn hình (`fixed bottom-0`), có 3 nút:
+  1. `📞 Gọi Ngay`: Kích hoạt cuộc gọi đến hotline.
+  2. `💬 Zalo Chat`: Mở Zalo.
+  3. `🍽️ Đặt Bàn`: Nút tròn nổi nhô lên giữa thanh dock với hiệu ứng pulse thu hút.
+  - Tự động ẩn khi cuộn xuống nhanh và hiện lại khi cuộn lên (`useScrollDirection`).
+- **Trên Desktop**: Nút tròn floating góc dưới phải, rê chuột hoặc nhấp để bung menu gọi/zalo.
+
+---
+
+## 6. QUY TRÌNH VẬN HÀNH & BẢO TRÌ
+
+### Lệnh chạy cục bộ (Development)
+```bash
+npm install        # Cài đặt thư viện
+npm run dev        # Khởi động máy chủ dev tại http://localhost:5173
+npm run build      # Kiểm tra và đóng gói bản dựng tối ưu vào thư mục dist/
+npm run preview    # Xem thử bản dựng production
+```
+
+### Thêm món mới vào thực đơn
+- Mở file `public/menu.json`, thêm món mới vào danh mục và nhóm tương ứng theo định dạng:
+  ```json
+  {
+    "name": "TÊN MÓN ĂN ***",
+    "description": "Mô tả nguyên liệu và cách thưởng thức",
+    "price": "99K"
+  }
+  ```
+  *(Thêm `***` vào cuối tên nếu muốn gắn nhãn Món Nổi Bật).*
+
+### Thêm ảnh mới
+- Đặt ảnh món vào `public/images/foods/`
+- Đặt poster ưu đãi vào `public/images/banner-khuyen-mai/`
+- Đặt ảnh quán vào `public/images/KhongGian/`
+
+### Triển khai (Deployment)
+- Mã nguồn đẩy lên GitHub nhánh: `Basic-DichVuNauAn` (hoặc gộp vào `main`).
+- Cloudflare Pages liên kết trực tiếp với repository này:
+  - **Build command**: `npm run build`
+  - **Output directory**: `dist`
+  - Tự động CI/CD mỗi khi có commit mới.
+
+---
+*Tài liệu được tạo tự động và đồng bộ hoá với phiên bản website mới nhất của Quán Ăn Dốc Mơ.*

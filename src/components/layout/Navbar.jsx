@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
+import BrandLogo from '../ui/BrandLogo';
 
 const navLinks = [
   { id: 'khuyen-mai', label: 'Khuyến Mãi' },
-  { id: 'mon-ngon', label: 'Món Ngon' },
-  { id: 'thuc-don', label: 'Thực Đơn' },
-  { id: 'khong-gian', label: 'Không Gian' },
+  { id: 'mon-ngon', label: 'Món Tủ' },
+  { id: 'thuc-don', label: 'Bảng Mồi' },
+  { id: 'khong-gian', label: 'Góc Quán' },
   { id: 'danh-gia', label: 'Đánh Giá' },
-  { id: 'vi-tri', label: 'Vị Trí' },
+  { id: 'vi-tri', label: 'Tới Quán' },
 ];
 
 export default function Navbar() {
@@ -40,8 +41,8 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/90 backdrop-blur-md shadow-md'
-            : 'bg-transparent'
+            ? 'bg-brand-bg-deep/95 backdrop-blur-md border-b border-brand-cream/20 shadow-2xl py-1'
+            : 'bg-gradient-to-b from-black/60 via-black/20 to-transparent py-2'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,45 +54,28 @@ export default function Navbar() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-2 group"
+              className="group cursor-pointer"
             >
-              <img
-                src="/images/Logo/main_logo-removebg-preview.webp"
-                alt="Dốc Mơ"
-                className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105"
-              />
-              <span
-                className={`font-display text-xl md:text-2xl font-bold transition-colors duration-300 ${
-                  isScrolled ? 'text-brand-olive' : 'text-brand-cream'
-                }`}
-              >
-                Dốc Mơ
-              </span>
+              <BrandLogo variant="navbar" />
             </a>
 
             {/* Desktop nav links */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
               {navLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className={`relative font-medium text-sm tracking-wide transition-colors duration-300 ${
-                    isScrolled
-                      ? activeId === link.id
-                        ? 'text-brand-clay'
-                        : 'text-brand-charcoal hover:text-brand-clay'
-                      : activeId === link.id
-                      ? 'text-brand-bamboo'
-                      : 'text-brand-cream/80 hover:text-brand-cream'
+                  className={`relative font-stencil text-xs tracking-[0.14em] uppercase font-bold transition-all duration-300 py-1 ${
+                    activeId === link.id
+                      ? 'text-brand-cream'
+                      : 'text-brand-cream/60 hover:text-brand-cream'
                   }`}
                 >
                   {link.label}
                   {activeId === link.id && (
                     <motion.div
                       layoutId="nav-underline"
-                      className={`absolute -bottom-1 left-0 right-0 h-0.5 rounded-full ${
-                        isScrolled ? 'bg-brand-clay' : 'bg-brand-bamboo'
-                      }`}
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-cream rounded-full shadow-[0_0_8px_rgba(247,223,191,0.8)]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -103,21 +87,19 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-3">
               <a
                 href="tel:0984586248"
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-300 hover:scale-105 ${
-                  isScrolled
-                    ? 'border-brand-clay text-brand-clay hover:bg-brand-clay hover:text-white'
-                    : 'border-brand-cream/60 text-brand-cream hover:bg-brand-cream/20'
-                }`}
+                className="flex items-center gap-2 px-4 py-2 rounded border border-brand-cream text-brand-cream text-xs font-stencil font-bold tracking-wider hover:bg-brand-cream hover:text-brand-bg transition-all duration-300 shadow-md hover:scale-105 active:scale-95"
               >
-                📞 Gọi Ngay
+                <span>☎</span>
+                <span>0984 586 248</span>
               </a>
               <a
                 href="https://zalo.me/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-zalo text-white hover:bg-blue-700 transition-all duration-300 hover:scale-105"
+                className="flex items-center gap-1.5 px-4 py-2 rounded bg-brand-cream text-brand-bg text-xs font-stencil font-extrabold tracking-wider hover:bg-brand-cream-light transition-all duration-300 shadow-md hover:scale-105 active:scale-95"
               >
-                💬 Zalo
+                <span>💬</span>
+                <span>ZALO QUÁN</span>
               </a>
             </div>
 
@@ -125,25 +107,23 @@ export default function Navbar() {
             <div className="flex md:hidden items-center gap-2">
               <a
                 href="tel:0984586248"
-                className={`p-2 rounded-full transition-colors ${
-                  isScrolled ? 'text-brand-clay' : 'text-brand-cream'
-                }`}
+                className="p-2 rounded border border-brand-cream/40 text-brand-cream text-sm hover:bg-brand-cream hover:text-brand-bg transition-colors"
+                aria-label="Gọi điện"
               >
-                📞
+                ☎
               </a>
               <a
                 href="https://zalo.me/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full text-zalo"
+                className="p-2 rounded bg-brand-cream text-brand-bg text-sm font-bold"
+                aria-label="Chat Zalo"
               >
                 💬
               </a>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`p-2 rounded-lg transition-colors ${
-                  isScrolled ? 'text-brand-charcoal' : 'text-brand-cream'
-                }`}
+                className="p-2 rounded border border-brand-cream/30 text-brand-cream hover:border-brand-cream transition-colors"
                 aria-label="Menu"
               >
                 <svg
@@ -156,14 +136,14 @@ export default function Navbar() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                       d="M6 18L18 6M6 6l12 12"
                     />
                   ) : (
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                       d="M4 6h16M4 12h16M4 18h16"
                     />
                   )}
@@ -182,7 +162,7 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
@@ -190,40 +170,44 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-72 bg-brand-cream z-50 md:hidden shadow-2xl"
+              className="fixed top-0 right-0 bottom-0 w-80 bg-brand-bg-deep border-l border-brand-cream/20 z-50 md:hidden shadow-2xl flex flex-col justify-between p-6 pt-20"
             >
-              <div className="p-6 pt-20">
-                <div className="flex flex-col gap-4">
+              <div>
+                <div className="pb-6 mb-6 border-b border-brand-cream/20">
+                  <BrandLogo variant="navbar" />
+                </div>
+                <div className="flex flex-col gap-2">
                   {navLinks.map((link) => (
                     <button
                       key={link.id}
                       onClick={() => scrollToSection(link.id)}
-                      className={`text-left text-lg font-medium py-3 px-4 rounded-xl transition-colors ${
+                      className={`text-left font-stencil uppercase tracking-widest text-sm py-3 px-4 rounded transition-colors ${
                         activeId === link.id
-                          ? 'bg-brand-olive text-white'
-                          : 'text-brand-charcoal hover:bg-brand-olive/10'
+                          ? 'bg-brand-cream text-brand-bg font-extrabold'
+                          : 'text-brand-cream/80 hover:bg-brand-cream/10 hover:text-brand-cream'
                       }`}
                     >
                       {link.label}
                     </button>
                   ))}
                 </div>
-                <div className="mt-8 flex flex-col gap-3">
-                  <a
-                    href="tel:0984586248"
-                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-brand-clay text-white font-medium"
-                  >
-                    📞 Gọi Đặt Bàn
-                  </a>
-                  <a
-                    href="https://zalo.me/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-zalo text-white font-medium"
-                  >
-                    💬 Chat Zalo
-                  </a>
-                </div>
+              </div>
+
+              <div className="pt-6 border-t border-brand-cream/20 flex flex-col gap-3">
+                <a
+                  href="tel:0984586248"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded border-2 border-brand-cream bg-brand-cream text-brand-bg font-stencil font-black text-xs tracking-wider shadow-md"
+                >
+                  <span>☎</span> GỌI ĐẶT BÀN: 0984 586 248
+                </a>
+                <a
+                  href="https://zalo.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded border border-brand-cream/40 text-brand-cream font-stencil font-bold text-xs tracking-wider hover:bg-brand-cream/10 transition-colors"
+                >
+                  <span>💬</span> NHẮN TIN ZALO
+                </a>
               </div>
             </motion.div>
           </>
