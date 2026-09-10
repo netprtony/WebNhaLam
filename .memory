@@ -22,8 +22,7 @@ Tài liệu ghi nhớ toàn diện về dự án dành cho nhà phát triển, A
 - **Styling**: Tailwind CSS v3 + PostCSS + Autoprefixer
 - **Animations & Interactivity**: Framer Motion (`framer-motion`)
 - **Typography**: 
-  - Tiêu đề & Logo (Display Sans-Serif Retro / Vintage Grotesk): `Syne` (800 ExtraBold) + `Be Vietnam Pro` (900 Black) kết hợp Negative Space Cutout cho chữ `QUÁN`.
-  - Stencil / Street badges: `Chakra Petch` (700 Bold).
+  - Phông chữ chủ đạo & Logo (Display Sans-Serif Retro / Vintage Grotesk): `Bricolage Grotesque` (Mathieu Triay, variable optical size, weights 400..800 ExtraBold/Black) kết hợp phong cách Reverse Contrast Cutout cho chữ `QUÁN`.
   - Thân bài (Body): `Be Vietnam Pro` (Sans-serif hiện đại, tối ưu 100% dấu tiếng Việt).
 - **Hosting / Deployment Target**: Cloudflare Pages (tên miền tùy chỉnh: `docmoquan.vn`)
 - **Source Repository**: `https://github.com/netprtony/WebNhaLam.git`
