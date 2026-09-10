@@ -11,7 +11,7 @@ const reviews = [
   { id: 5, name: 'Đức Hùng', avatar: '🧔', rating: 5, text: 'Mỗi tuần đều ra đây nhậu với anh em. Giò heo giòn rụm chấm mắm me tuyệt vời!', date: '5 ngày trước' },
 ];
 
-const overallRating = { score: 4.8, total: 5, reviewCount: 1200 };
+const overallRating = { score: 4.8, total: 5, reviewCount: '1.200' };
 
 const SocialProof = () => {
   return (
@@ -31,7 +31,7 @@ const SocialProof = () => {
             ))}
           </div>
           <p className="text-gray-400 font-body text-sm md:text-base">
-            {overallRating.reviewCount.toLocaleString()}+ đánh giá trên Google & Facebook
+            {overallRating.reviewCount}+ đánh giá trên Google & Facebook
           </p>
         </div>
 
