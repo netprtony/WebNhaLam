@@ -1,8 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { PreBillProvider } from '../context/PreBillContext';
-import PageLoader from '../components/ui/PageLoader';
+
+// Dynamic client-only components (prevents any SSR hydration mismatch)
+const PageLoader = dynamic(() => import('../components/ui/PageLoader'), { ssr: false });
+const BookingModal = dynamic(() => import('../components/modals/BookingModal'), { ssr: false });
+const PreBillDrawer = dynamic(() => import('../components/modals/PreBillDrawer'), { ssr: false });
+const PreBillFloatingBar = dynamic(() => import('../components/layout/PreBillFloatingBar'), { ssr: false });
+
 import MarqueeTicker from '../components/layout/MarqueeTicker';
 import Navbar from '../components/layout/Navbar';
 import HeroSection from '../components/sections/HeroSection';
@@ -13,9 +20,6 @@ import PromoBanners from '../components/sections/PromoBanners';
 import SocialProof from '../components/sections/SocialProof';
 import Footer from '../components/layout/Footer';
 import FloatingActionDock from '../components/layout/FloatingActionDock';
-import BookingModal from '../components/modals/BookingModal';
-import PreBillDrawer from '../components/modals/PreBillDrawer';
-import PreBillFloatingBar from '../components/layout/PreBillFloatingBar';
 
 export default function Home() {
   const [bookingOpen, setBookingOpen] = useState(false);

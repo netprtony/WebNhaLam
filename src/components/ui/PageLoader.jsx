@@ -61,41 +61,6 @@ export default function PageLoader() {
                     <animate attributeName="x1" from="-100%" to="200%" dur="2.2s" repeatCount="indefinite" />
                     <animate attributeName="x2" from="0%" to="300%" dur="2.2s" repeatCount="indefinite" />
                   </linearGradient>
-
-                  {/* Style keyframes */}
-                  <style>{`
-                    .pulse-group-loader {
-                      transform-origin: center;
-                      animation: organicPulseLoader 3s ease-in-out infinite;
-                    }
-                    .foliage-layer-loader {
-                      fill: url(#shimmer-grad-loader);
-                    }
-                    .floating-leaf-loader {
-                      animation: floatShiftLoader 2.5s ease-in-out infinite alternate;
-                    }
-                    .floating-leaf-reverse-loader {
-                      animation: floatShiftRevLoader 2.8s ease-in-out infinite alternate;
-                    }
-                    @keyframes organicPulseLoader {
-                      0%, 100% {
-                        transform: scale(1);
-                        opacity: 0.92;
-                      }
-                      50% {
-                        transform: scale(1.03);
-                        opacity: 1;
-                      }
-                    }
-                    @keyframes floatShiftLoader {
-                      0% { transform: translateX(0px); }
-                      100% { transform: translateX(4px); }
-                    }
-                    @keyframes floatShiftRevLoader {
-                      0% { transform: translateX(0px); }
-                      100% { transform: translateX(-4px); }
-                    }
-                  `}</style>
                 </defs>
 
                 <g className="pulse-group-loader">

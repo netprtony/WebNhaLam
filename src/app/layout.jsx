@@ -42,8 +42,8 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi" className={`${anton.variable} ${beVietnamPro.variable}`}>
-      <body className="bg-charcoal text-gray-200 font-body antialiased">
+    <html lang="vi" className={`${anton.variable} ${beVietnamPro.variable}`} suppressHydrationWarning>
+      <body className="bg-charcoal text-gray-200 font-body antialiased" suppressHydrationWarning>
         {children}
       </body>
     </html>
