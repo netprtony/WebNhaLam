@@ -31,9 +31,9 @@ export default {
         zalo: '#0068FF',
       },
       fontFamily: {
-        retro: ['Syne', '"Be Vietnam Pro"', 'sans-serif'],
-        display: ['Syne', '"Be Vietnam Pro"', 'sans-serif'],
-        stencil: ['"Chakra Petch"', '"Be Vietnam Pro"', 'sans-serif'],
+        retro: ['"Bricolage Grotesque"', '"Be Vietnam Pro"', 'sans-serif'],
+        display: ['"Bricolage Grotesque"', '"Be Vietnam Pro"', 'sans-serif'],
+        stencil: ['"Bricolage Grotesque"', '"Be Vietnam Pro"', 'sans-serif'],
         body: ['"Be Vietnam Pro"', 'sans-serif'],
       },
       animation: {
