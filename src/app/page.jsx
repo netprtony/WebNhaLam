@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { PreBillProvider } from '../context/PreBillContext';
+import PageLoader from '../components/ui/PageLoader';
 import MarqueeTicker from '../components/layout/MarqueeTicker';
 import Navbar from '../components/layout/Navbar';
 import HeroSection from '../components/sections/HeroSection';
@@ -24,6 +25,9 @@ export default function Home() {
 
   return (
     <PreBillProvider>
+      {/* Trang Loading % với Logo chuyển động mỗi khi refresh */}
+      <PageLoader />
+
       <MarqueeTicker />
       <Navbar onBooking={openBooking} />
 
