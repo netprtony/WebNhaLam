@@ -1,123 +1,74 @@
-import { useState, useEffect, useRef } from 'react';
+'use client';
+
+import React from 'react';
 import { motion } from 'framer-motion';
-import { reviews, overallRating } from '../../data/reviews';
-import SectionHeading from '../ui/SectionHeading';
-import ReviewCard from '../ui/ReviewCard';
 
-function AnimatedCounter({ target, duration = 2 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+const reviews = [
+  { id: 1, name: 'Anh Minh T.', avatar: '🧑', rating: 5, text: 'Mồi ngon, bia lạnh, phục vụ nhanh — đúng chất quán nhậu gia đình. 10 điểm!', date: '2 tuần trước' },
+  { id: 2, name: 'Chị Hương L.', avatar: '👩', rating: 5, text: 'Đặt tiệc sinh nhật cho bé, phòng VIP rộng rãi, có karaoke. Cả nhà ai cũng vui!', date: '1 tháng trước' },
+  { id: 3, name: 'Thanh Phong', avatar: '👨', rating: 4, text: 'Lẩu Changmai chua cay đỉnh lắm! Giá hợp lý, không gian ngoài trời thoáng.', date: '3 tuần trước' },
+  { id: 4, name: 'Ngọc Anh', avatar: '👩🦰', rating: 5, text: 'Cánh gà chiên mắm ở đây ăn một lần là ghiền. Nhân viên nhiệt tình.', date: '1 tuần trước' },
+  { id: 5, name: 'Đức Hùng', avatar: '🧔', rating: 5, text: 'Mỗi tuần đều ra đây nhậu với anh em. Giò heo giòn rụm chấm mắm me tuyệt vời!', date: '5 ngày trước' },
+];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          const startTime = Date.now();
-          const animate = () => {
-            const elapsed = (Date.now() - startTime) / 1000;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(eased * target);
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.5 }
-    );
+const overallRating = { score: 4.8, total: 5, reviewCount: '1.200' };
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, duration, hasAnimated]);
-
-  return <span ref={ref}>{count.toFixed(1)}</span>;
-}
-
-export default function SocialProof() {
+const SocialProof = () => {
   return (
-    <section id="danh-gia" className="section-padding bg-brand-bg relative border-b border-brand-cream/15 text-brand-cream">
-      <div className="max-w-7xl mx-auto">
-        <SectionHeading
-          title="ANH EM NÂNG LY NÓI GÌ"
-          subtitle="Hơn 1.200+ lượt khách ghé Dốc Mơ Quán hài lòng về mồi bén & không gian"
-          emoji="⭐"
-        />
-
-        {/* Overall rating badge */}
-        <motion.div
-          className="text-center mt-8 sm:mt-10"
-          initial={{ opacity: 0, scale: 0.85 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="inline-flex items-center gap-3 sm:gap-4 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-brand-bg-deep border-2 border-brand-cream/30 shadow-xl">
-            <div className="text-4xl sm:text-5xl font-black text-brand-cream font-retro">
-              <AnimatedCounter target={overallRating.score} />
-            </div>
-            <div className="text-left">
-              <div className="flex gap-0.5 text-base sm:text-lg">
-                {'⭐'.repeat(5)}
-              </div>
-              <p className="font-stencil text-xs text-brand-cream/70 uppercase tracking-wider mt-1 font-bold">
-                {overallRating.reviewCount.toLocaleString()}+ ĐÁNH GIÁ TRÊN
-                <span className="ml-1 font-black text-brand-cream">GOOGLE MAPS</span>
-              </p>
-            </div>
+    <section className="py-20 md:py-32 px-4 md:px-8 bg-charcoal overflow-hidden">
+      <div className="container mx-auto max-w-7xl">
+        <h2 className="font-headline text-4xl md:text-5xl text-center text-white mb-8 uppercase">KHÁCH NÓI GÌ?</h2>
+        
+        {/* Overall Rating Badge */}
+        <div className="flex flex-col items-center justify-center mb-16">
+          <div className="flex items-end gap-2 mb-2">
+            <span className="text-6xl md:text-7xl text-amber-400 font-headline drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]">{overallRating.score}</span>
+            <span className="text-2xl text-gray-400 font-headline mb-1">/ {overallRating.total}</span>
           </div>
-        </motion.div>
-
-        {/* Review cards */}
-        <div className="mt-10 sm:mt-12">
-          {/* Desktop: grid */}
-          <div className="hidden md:grid md:grid-cols-3 gap-5 sm:gap-6">
-            {reviews.slice(0, 3).map((review, index) => (
-              <motion.div
-                key={review.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15 }}
-              >
-                <ReviewCard review={review} />
-              </motion.div>
+          <div className="flex text-amber-400 text-2xl gap-1 mb-3">
+            {[...Array(5)].map((_, i) => (
+              <span key={i}>{i < Math.floor(overallRating.score) ? '★' : '☆'}</span>
             ))}
           </div>
-
-          {/* Mobile: horizontal scroll */}
-          <div className="md:hidden overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-hide">
-            <div className="flex gap-4" style={{ width: `${reviews.length * 290}px` }}>
-              {reviews.map((review) => (
-                <div
-                  key={review.id}
-                  className="snap-center shrink-0"
-                  style={{ width: '275px' }}
-                >
-                  <ReviewCard review={review} />
-                </div>
-              ))}
-            </div>
-          </div>
+          <p className="text-gray-400 font-body text-sm md:text-base">
+            {overallRating.reviewCount}+ đánh giá trên Google & Facebook
+          </p>
         </div>
 
-        {/* Trust badge */}
-        <motion.div
-          className="flex justify-center mt-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded bg-brand-bg-deep border border-brand-cream/25 font-stencil text-xs uppercase tracking-wider text-brand-cream/80 font-bold">
-            <svg className="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-            </svg>
-            QUÁN ĂN XÁC MINH CHÍNH CHỦ GOOGLE VERIFIED
-          </div>
-        </motion.div>
+        {/* Reviews Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reviews.map((review, index) => (
+            <motion.div
+              key={review.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-charcoal-light border border-gray-800 rounded-2xl p-6 hover:border-amber-500/30 transition-colors"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-charcoal rounded-full flex items-center justify-center text-3xl shrink-0 border border-gray-700">
+                  {review.avatar}
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-white text-lg">{review.name}</h4>
+                  <p className="text-xs text-gray-500">{review.date}</p>
+                </div>
+                <div className="flex text-amber-400 text-sm">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i}>{i < review.rating ? '★' : '☆'}</span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed font-body">
+                "{review.text}"
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default SocialProof;
