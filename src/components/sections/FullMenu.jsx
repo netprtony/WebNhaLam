@@ -53,10 +53,10 @@ function getItemImage(itemName, index) {
 }
 
 const categoryImages = {
-  'KHAI VỊ': '/images/foods/656434324_122187237350474964_8153001845916240996_n.jpg',
-  'LAI RAI': '/images/foods/657806482_122186972114474964_8937428043533625050_n.jpg',
-  'MÓN XÀO': '/images/foods/boluclac.png',
-  'LẨU & NƯỚNG': '/images/foods/lau.png',
+  'KHAI VỊ': '/images/menu/mon-khai-vi.jpg',
+  'LAI RAI': '/images/menu/mon-lai-rai.png',
+  'MÓN XÀO': '/images/menu/mon-xao.png',
+  'LẨU & NƯỚNG': '/images/menu/mon-lau-nuong.png',
   'TRÀ & NƯỚC NGỌT': '/images/foods/650363390_122185867832474964_5432959880844720639_n.jpg',
   'BIA CÁC LOẠI': '/images/foods/475105117_122135548196474964_5587806538350282918_n.jpg',
 };
