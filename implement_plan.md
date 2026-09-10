@@ -1,338 +1,337 @@
-# IMPLEMENTATION PLAN
-## Website Nhà Hàng "Nhậu" Gia Đình Việt Nam — Single Page Application
+# IMPLEMENTATION PLAN (v2 — NÂNG CẤP)
+## "Quán Ăn Gia Đình & Nhậu Hiện Đại" — High-Energy Kinetic Website
 
-**Vai trò:** Senior UI/UX Architect & Full-Stack Frontend Engineer
-**Tech Stack:** React + Tailwind CSS (SPA tĩnh, zero-latency, scroll-spy navigation)
-**Cảm hứng:** "Dau Homemade" — mộc mạc, hoài niệm, nâng cấp bằng thẩm mỹ hiện đại và micro-interaction tinh tế
-**Đối tượng:** Gia đình địa phương, nhóm tụ họp cuối tuần, dân nhậu sau giờ làm
+**Vai trò:** Principal Frontend Engineer & Creative Motion Designer
+**Tech Stack:** Next.js + Tailwind CSS + Framer Motion / GSAP (ScrollTrigger)
+**Cảm hứng thị giác:** quannhautudo.com — quán nhậu vỉa hè năng động, ánh đèn chợ đêm, ấm áp nhưng "bén lửa"
+**Slogan định vị:** "Ăn Hết Mình, Uống Nhiệt Tình"
 
----
-
-## 1. Định Hướng Thiết Kế Tổng Thể
-
-### 1.1 Brand Vibe
-- **Màu sắc chủ đạo:** Tông đất nung (clay) #B8654A, tre nứa (bamboo) #C9A876, be ấm #F5EDE0, xanh lá đậm điểm nhấn #3E5641, đen than #2A2420 cho text.
-- **Typography:**
-  - Heading: Font serif/display có nét thư pháp nhẹ (vd: "Playfair Display" hoặc "Be Vietnam Pro" weight 700) — gợi cảm giác truyền thống.
-  - Body: Sans-serif hiện đại, dễ đọc trên mobile (vd: "Inter" / "Be Vietnam Pro" regular).
-- **Texture:** Nền vân tre/mây đan xen nhẹ (subtle SVG pattern, opacity thấp), khung ảnh bo góc mềm (rounded-2xl), shadow ấm (warm-toned shadow thay vì xám lạnh).
-- **Photography style:** Ảnh món ăn cận cảnh, hơi nước bốc lên, ánh sáng vàng ấm (golden hour lighting), AI-upscale để nét căng trên retina display.
-
-### 1.2 Nguyên Tắc Kỹ Thuật
-- Mobile-first, breakpoint: `sm 640px / md 768px / lg 1024px / xl 1280px`.
-- Scroll-spy: dùng `IntersectionObserver` để active-state nav link theo section đang xem.
-- Lazy-load ảnh (`loading="lazy"`, `next/image` hoặc `react-lazy-load-image-component`).
-- Animation: `Framer Motion` cho fade-in/slide-up khi scroll vào viewport (`whileInView`), giữ threshold nhẹ để không giật trên mobile yếu.
-- Performance target: LCP < 2.5s, CLS < 0.1, ảnh nén WebP/AVIF.
+> Đây là bản nâng cấp thay thế định hướng "mộc mạc/nostalgic" của v1 bằng định hướng **high-energy, kinetic, night-market glow**, tập trung vào ảnh cutout PNG nền trong suốt (`/images/image_rvbg/`), motion mạnh và các chi tiết "sống động" hơn.
 
 ---
 
-## 2. Sitemap Blueprint (Section-by-Section)
+## 1. Định Hướng Thị Giác Tổng Thể (Core Visual Identity)
 
+### 1.1 Vibe & Bảng Màu
+- **Nền chủ đạo:** Charcoal đêm chợ (`#1A1714`, `#211C18`) — tạo chiều sâu, làm nền cho ánh sáng nổi bật.
+- **Accent màu nóng:**
+  - Hổ phách/vàng ấm (amber) — `#F5A623` / `#FFB74D`: glow, border neon, nút CTA.
+  - Vàng neon — `#FFE14D`: text nhấn, badge "Best Seller".
+  - Đỏ ớt cay (chili red) — `#E8452C`: badge "Cay Nồng", nút primary "Đặt Bàn".
+- **Nguyên tắc phối màu:** Nền tối tuyệt đối để ảnh món ăn cutout + ánh glow "nổ" ra, tương phản mạnh — không dùng nền sáng như bản v1.
+
+### 1.2 Typography
+- **Headline:** Font condensed đậm (vd: "Anton", "Bebas Neue", hoặc "Be Vietnam Pro ExtraBold" kéo `letter-spacing` âm nhẹ) — cảm giác bảng hiệu quán nhậu, poster đường phố.
+- **Body/UI:** Sans-serif rõ ràng (vd: "Inter" / "Be Vietnam Pro") giữ độ tương phản tốt trên nền tối.
+- **Badge/Tag:** Chữ in hoa, bo góc nhỏ, viền glow mỏng 1px màu amber/neon, nền bán trong suốt tối.
+
+### 1.3 Chi Tiết Thị Giác Đặc Trưng
+- **Neon micro-border:** border 1–2px với `box-shadow` glow (`0 0 8px rgba(245,166,35,0.6)`) quanh badge, card viền, số liệu nổi bật.
+- **Industrial tag:** nhãn dạng "sticker" xoay nhẹ góc (`-4deg` đến `4deg`) đính trên góc ảnh món ăn, giả lập tem dán quán ăn đường phố.
+
+---
+
+## 2. Quy Tắc Ảnh Cutout (Transparent Image System)
+
+### 2.1 Cấu trúc thư mục & convention
 ```
-[Navbar - Sticky/Transparent]
-  |
-[1. Hero Section]
-  |
-[2. Highlight Menu / Signature Combos]
-  |
-[3. Ambiance & Dining Spaces]
-  |
-[4. Social Proof & Google Rating]
-  |
-[5. Location & Quick Contact]
-  |
-[Footer]
-  |
-[Floating Action Dock - Mobile Sticky]
+public/
+└── images/
+    └── image_rvbg/
+        ├── hero-dish.png
+        ├── lau-rieu-cua.png
+        ├── bo-nuong.png
+        ├── ga-nuong-muoi-ot.png
+        ├── thap-suon-cay.png
+        ├── beer-mug.png
+        ├── chili-garnish.png
+        ├── lime-slice.png
+        └── grill-smoke.png
 ```
+- Toàn bộ ảnh món ăn/đồ uống/prop **bắt buộc** là PNG/WebP nền trong suốt, path chuẩn `/images/image_rvbg/[filename].png`.
+- Không dùng ảnh có nền/background còn dính lại — mọi hiệu ứng shadow/glow được xử lý bằng CSS, không phải trong ảnh gốc.
+
+### 2.2 Kỹ Thuật Xử Lý Ảnh Cutout
+
+**a) Layered Hero Composite**
+- Ảnh món chủ đạo (`hero-dish.png`) đặt chồng lên badge tròn tối màu có radial glow phía sau.
+- CSS: `filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));`
+- Cấu trúc layer (z-index từ dưới lên): radial glow blob → badge tròn (nền tối, viền neon) → ảnh món ăn cutout → particle trang trí (ớt/chanh/khói) bay phía trước.
+
+**b) Card Border-Break Effect (Menu Grid)**
+- Ảnh món trong mỗi card menu phải "tràn" ra khỏi mép trên và mép phải của card, tạo cảm giác nổi khối 3D thật.
+- Implementation: card container dùng `overflow-visible`, ảnh dùng `absolute -top-6 -right-4 w-[130%]` (margin âm/định vị tuyệt đối lệch ra ngoài khung card).
+- Kết hợp `filter: drop-shadow(...)` đổ bóng xuống card bên dưới để ảnh trông như đang "nhô" lên khỏi bề mặt.
+
+**c) Ambient Floating Particles**
+- 2–3 prop nhỏ (`chili-garnish.png`, `lime-slice.png`, `grill-smoke.png`) trôi nổi nhẹ nhàng trong nền các section (đặc biệt Hero và Signature Showcase).
+- Framer Motion: `animate={{ y: [0, -15, 0], rotate: [0, 5, -5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}`.
+- Đặt `opacity` thấp (0.6–0.85) và `blur-[0.5px]` nhẹ để tạo chiều sâu (depth-of-field), không cạnh tranh với nội dung chính.
 
 ---
 
-## 3. Chi Tiết Từng Section
+## 3. Sitemap & Motion Spec Chi Tiết Theo Section
 
-### 3.1 Navigation Bar (Sticky/Transparent)
+### 3.1 Sticky Dynamic Header & Top Marquee Banner
 
-**Mục đích:** Điều hướng nhanh, giữ CTA gọi món/liên hệ luôn trong tầm tay, không che khuất hero ảnh lúc đầu.
+**Marquee Ticker (trên cùng, trước navbar):**
+- Dải chữ chạy ngang vô hạn, nền đỏ/amber gradient, chữ trắng đậm in hoa:
+  `🔥 ĐẶT BÀN TRƯỚC GIẢM 10% • HƠN 100+ MÓN NHẬU BÉN • PHÒNG RIÊNG VIP CÓ HÁT KARAOKE • ĐẶT TIỆC LIÊN HOAN - SINH NHẬT 🔥`
+- Kỹ thuật: CSS `@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }` trên 1 dải nội dung lặp 2 lần (duplicate) để loop liền mạch, `animation: marquee 25s linear infinite`. Pause khi hover (`animation-play-state: paused`).
+
+**Navbar:**
+- `backdrop-blur-md bg-charcoal/70`, sticky top-0, border-bottom viền glow mỏng amber.
+- Logo: badge tròn glow nhẹ pulse chậm.
+- Quick links: "Menu", "Không Gian", "Ưu Đãi", "Chi Nhánh" — scroll-spy active state dùng gạch dưới glow neon.
+- CTA "ĐẶT BÀN NGAY": nút đỏ/amber gradient, `box-shadow` glow ring pulse liên tục (`animate-pulse` custom keyframe scale + opacity ring bên ngoài nút).
+- Mobile: thu gọn thành hamburger, marquee ticker vẫn giữ (thu nhỏ font) hoặc ẩn khi scroll xuống để tiết kiệm không gian.
+
+---
+
+### 3.2 Hero Section (Kinetic & Appetite-Inducing)
+
+**Layout:** 2 cột (desktop) — trái: text kinetic; phải: stage ảnh món ăn 3D tương tác.
+
+**Nội dung placeholder:**
+- Headline kinetic reveal: **"MỒI BÉN BẠN HIỀN — VUI HẾT NẮC"** (chia từng chữ/từ, chạy animation stagger).
+- Sub-text: "Quán nhậu gia đình đúng chất — mồi ngon, bia lạnh, không khí tưng bừng mỗi tối."
+- Quick Action Bar (mini booking bar) ngay dưới headline:
+  ```
+  [ Số người: 2-4 ▾ ]  [ Khung giờ: 19:00 ▾ ]  [ Check Bàn Trống → ]
+  ```
+
+**Motion Spec:**
+- Headline: Framer Motion `staggerChildren` — mỗi từ fade-up + slight skew khi load (`initial={{ y: 40, opacity: 0, skewY: 3 }}`).
+- Ảnh món chính (`hero-dish.png`): 
+  - Xoay nhẹ theo scroll: dùng GSAP ScrollTrigger `scrub` map `scrollYProgress` → `rotate: [-5deg, 5deg]`.
+  - Mouse-reactive tilt: track `mousemove`, áp `rotateX/rotateY` nhẹ (max ±8deg) theo vị trí con trỏ so với tâm ảnh, dùng `perspective` trên container cha.
+- Particles nền (ớt, chanh, khói) bay nhẹ như mô tả mục 2.2c.
+- Quick Action Bar: entrance slide-up + fade sau headline (delay 0.4s), border glow amber mỏng, dropdown mở với animation height auto + fade.
+
+---
+
+### 3.3 Signature Showcase (Interactive Card Slider)
+
+**Mục đích:** Giới thiệu 3–5 món chủ lực (Lẩu riêu cua bắp bò, Gà nướng muối ớt, Tháp sườn cay...) dạng carousel tương tác mạnh.
 
 **Wireframe:**
 ```
-┌─────────────────────────────────────────────────────────┐
-│ [Logo/Icon]  Món Ngon | Không Gian | Đánh Giá | Vị Trí   │
-│                                    [📞 Gọi Ngay] [Zalo]   │
-└─────────────────────────────────────────────────────────┘
+◀  [Card 1]   [Card 2 - active/scale lớn]   [Card 3]  ▶
+        ● ● ○ ○ ○   (dot indicator)
+```
+
+**Nội dung mỗi card:**
+- Ảnh cutout món ăn (drop-shadow đổ theo hình dạng đĩa, không phải bóng chữ nhật).
+- Tên món (font condensed), mô tả 1 dòng, giá.
+- Badge góc: "Best Seller" / "Cay Nồng" / "Món Mới".
+
+**Motion Spec:**
+- Slider dùng `Framer Motion drag` (swipe ngang) hoặc thư viện `embla-carousel` + Framer Motion cho hiệu ứng scale.
+- Card đang active: `scale-110`, các card lân cận `scale-90 opacity-70` — hiệu ứng "coverflow" nhẹ.
+- Hover (desktop): ảnh món scale-up thêm với `spring physics` (`type: "spring", stiffness: 300, damping: 15`), đồng thời bóng đổ (`drop-shadow`) giãn ra và làm mờ nhẹ hơn để giả lập đĩa "nhấc lên".
+- Chuyển card: transition dùng spring, không dùng ease tuyến tính, tạo cảm giác nảy nhẹ tự nhiên.
+
+---
+
+### 3.4 Interactive Categorized Menu (Tabbed & Dynamic)
+
+**Category Tabs:**
+```
+[ Mồi Lai Rai ]  [ Món Nhậu Đậm Vị ]  [ Lẩu & Nướng Bốc Khói ]  [ Bia Lạnh & Giải Khát ]
+```
+
+**Wireframe grid (3 cột responsive → 1 cột mobile):**
+```
+┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+│ [ảnh tràn góc]│ │ [ảnh tràn góc]│ │ [ảnh tràn góc]│
+│ Tên món       │ │ Tên món       │ │ Tên món       │
+│ 🏆 Best Seller│ │ 🌶️ Cay Nồng  │ │ 🆕 Món Mới    │
+│ 129.000đ      │ │ 149.000đ      │ │ 99.000đ       │
+└───────────────┘ └───────────────┘ └───────────────┘
+```
+
+**Motion Spec:**
+- **Animated tab pill:** dùng Framer Motion `layoutId="activePill"` — khi chuyển tab, nền pill trượt mượt từ vị trí tab cũ sang tab mới (shared layout animation), không cần custom easing thủ công.
+- **Filter transition:** khi đổi category, danh sách món cũ fade-out + scale-down nhẹ (`exit={{ opacity: 0, scale: 0.95 }}`), món mới fade-in + stagger từng card (`AnimatePresence mode="popLayout"`).
+- Mỗi `CutoutFoodCard`: áp dụng kỹ thuật "Card Border-Break Effect" (mục 2.2b) — ảnh tràn góc trên-phải ra khỏi khung card.
+- Badge tag: viền glow theo màu ngữ nghĩa — vàng neon cho "Best Seller", đỏ cho "Cay Nồng", xanh mint cho "Món Mới".
+
+---
+
+### 3.5 Atmosphere & Private Rooms ("Không Gian Tiệc Tùng")
+
+**Wireframe (split 2 khối):**
+```
+┌─────────────────────────┬─────────────────────────┐
+│  KHÔNG GIAN MỞ           │  PHÒNG RIÊNG VIP         │
+│  NGOÀI TRỜI THOÁNG MÁT   │  MÁY LẠNH                │
+│  [photo grid 2x2]        │  [photo grid 2x2]        │
+└─────────────────────────┴─────────────────────────┘
 ```
 
 **Nội dung placeholder:**
-- Logo: icon lồng đèn/chén đũa cách điệu + tên quán "Quán Nhậu Sum Vầy" (placeholder).
-- Menu items (scroll-spy anchor): `#mon-ngon`, `#khong-gian`, `#danh-gia`, `#vi-tri`.
-- CTA phải: nút "📞 Gọi Ngay" (viền outline, ghost button) + nút "Zalo" (filled, màu xanh Zalo #0068FF hoặc theo brand).
+- Khối trái: "Không Gian Mở Ngoài Trời Thoáng Mát" — ảnh sân/khu bàn ghế ngoài trời, đèn dây ấm, không khí đông vui.
+- Khối phải: "Phòng Riêng VIP Máy Lạnh" — ảnh phòng riêng có karaoke, phù hợp gia đình/tiệc sinh nhật/công ty.
 
-**Hành vi tương tác:**
-- Trạng thái ban đầu (trên Hero): nền `transparent`, chữ trắng, logo trắng.
-- Khi scroll > 80px: nền chuyển `bg-white/90 backdrop-blur-md` với shadow nhẹ, chữ đổi màu đất nung, transition 300ms ease.
-- Active link: gạch chân động (underline animate `scaleX`) hoặc chấm tròn nhỏ dưới label khi section tương ứng đang trong viewport.
-- Mobile: menu items ẩn vào hamburger icon (☰), CTA gọi/Zalo vẫn hiện dạng icon compact trên thanh navbar; hamburger mở drawer trượt từ phải với overlay mờ nền.
+**Motion Spec:**
+- Hover từng ảnh trong photo grid: zoom nhẹ (`scale-105`) kèm overlay ánh sáng amber ambient (`bg-gradient-to-t from-amber-500/20 to-transparent` fade in khi hover) — mô phỏng ánh đèn quán ấm lên khi rê chuột.
+- Scroll-in: 2 khối trái/phải trượt vào từ 2 hướng đối lập (trái từ x:-40, phải từ x:+40) hội tụ về vị trí gốc, dùng GSAP ScrollTrigger `toggleActions: "play none none reverse"`.
 
 ---
 
-### 3.2 Hero Section
+### 3.6 High-Converting Booking Modal & Zalo Webhook
 
-**Mục đích:** Tạo ấn tượng "thèm ăn" ngay giây đầu, truyền tải cảm xúc sum vầy, thúc đẩy đặt bàn nhanh (one-tap).
+**Flow 3 bước (modal, không chuyển trang):**
+```
+Bước 1: Chọn loại nhóm       Bước 2: Chọn ngày & giờ      Bước 3: Nhập thông tin
+[Gia đình] [Nhậu bạn bè]     [Date picker] [Time slots]    [Tên] [SĐT] [Xác nhận →]
+[Tiệc công ty]
+```
 
-**Wireframe:**
+**Motion Spec:**
+- Modal mở: backdrop fade-in (`bg-black/70 backdrop-blur-sm`) + modal box scale-up từ 0.9 → 1 kèm spring nhẹ.
+- Chuyển bước: dùng progress indicator dạng 3 chấm/thanh, nội dung bước chuyển bằng slide-horizontal (bước sau trượt từ phải vào, bước trước trượt sang trái ra) — giống pattern stepper native app.
+- Nút lựa chọn (loại nhóm, khung giờ): khi chọn → border glow amber tức thì + tick icon animate scale-in.
+
+**Xử lý kỹ thuật (Action):**
+- Submit form (bước 3) → gọi API route Next.js nội bộ (`/api/booking`) → route này POST dữ liệu (tên, SĐT, loại nhóm, ngày giờ) tới **webhook Zalo OA / Telegram Bot** của chủ quán để nhận thông báo tức thời.
+- Sau khi submit thành công: hiển thị màn hình xác nhận trong modal + nút "Mở Zalo Xác Nhận" (deep-link `https://zalo.me/...`) để khách chủ động nhắn thêm nếu cần.
+- Lưu ý bảo mật: không hardcode webhook URL ở phía client — xử lý qua API route server-side để tránh lộ token webhook.
+
+---
+
+### 3.7 Floating Mobile Quick-Action Dock
+
+**Wireframe (cố định đáy màn hình, mobile):**
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  [Background: video/ảnh lẩu sôi, khói bốc nghi ngút]     │
-│                                                           │
-│        🏮 Hương Vị Sum Vầy                               │
-│        Đậm Vị Mồi Ngon                                   │
-│        (sub-headline mô tả ngắn)                         │
-│                                                           │
-│   [⏰ Mở cửa: 10:00 - 23:00 hằng ngày]  (badge nổi)      │
-│                                                           │
-│   [ 🍽️ Đặt Bàn Ngay ]   [ Xem Thực Đơn ↓ ]              │
-│                                                           │
-│                    ↓ scroll indicator                    │
+│  [ 📞 Gọi Hotline ]  [ 📍 Chỉ Đường Maps ]  [ 🍖 Đặt Bàn Nhanh ] │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Nội dung placeholder:**
-- Background: ảnh/video loop (muted, autoplay) nồi lẩu sôi sục, đĩa mồi nhậu bốc khói — overlay gradient tối dần từ dưới lên (`from-black/70 via-black/30 to-transparent`) để chữ nổi bật.
-- Headline: **"Hương Vị Sum Vầy — Đậm Vị Mồi Ngon"** (font display lớn, có thể chia 2 dòng, màu be sáng #F5EDE0).
-- Sub-headline: "Nơi gia đình quây quần, bạn bè nâng ly — mỗi món ăn là một câu chuyện quê nhà."
-- Badge giờ mở cửa: pill-shape, nền vàng bamboo bán trong suốt, icon đồng hồ, "Đang mở cửa" (dot xanh nhấp nháy nếu trong giờ hoạt động).
-- CTA chính: "🍽️ Đặt Bàn Ngay" (filled, màu đất nung, bo tròn full, có shadow nổi) — one-tap scroll tới form đặt bàn hoặc mở modal đặt bàn nhanh (tên, SĐT, số người, giờ đến).
-- CTA phụ: "Xem Thực Đơn ↓" (ghost/outline) — scroll mượt xuống section Highlight Menu.
-
-**Hành vi tương tác:**
-- Text headline: entrance animation fade-up + stagger từng dòng (delay 150ms/dòng) khi load trang.
-- Background video/ảnh: subtle Ken Burns zoom chậm (scale 1 → 1.05 trong 20s loop).
-- Badge giờ mở cửa: pulse animation nhẹ trên chấm trạng thái "đang mở".
-- Nút CTA: hover → scale 1.05 + đổi shadow đậm hơn; tap trên mobile → ripple effect nhẹ.
-- Scroll indicator (mũi tên/chuột) ở đáy: bounce animation loop, click/tap → smooth scroll tới section kế tiếp.
+**Motion Spec:**
+- Nút "Đặt Bàn Nhanh": màu đỏ/amber nổi bật nhất trong 3 nút, có `pulsing glow ring` liên tục (giống nút CTA trong navbar) để dẫn mắt.
+- Dock nền `bg-charcoal/90 backdrop-blur-md`, viền trên glow amber mỏng 1px.
+- Ẩn/hiện theo hướng scroll (ẩn khi scroll xuống nhanh, hiện lại khi scroll lên) để không che nội dung liên tục.
+- Tap feedback: `scale-95` tức thời khi nhấn, kèm haptic-like visual flash nhẹ (brightness tăng chớp nhoáng 100ms).
 
 ---
 
-### 3.3 Highlight Menu / Signature Combos
-
-**Mục đích:** Trưng bày 4–6 món/set "best-seller" theo bố cục bento, khơi gợi cảm giác thèm ăn và thúc đẩy quyết định đặt món/đặt bàn.
-
-**Wireframe (Bento Grid — desktop 3 cols, mobile 1 col scroll/stack):**
-```
-┌───────────────┬───────────────┬───────────────┐
-│  [Ảnh lớn]    │  [Ảnh]        │  [Ảnh]        │
-│  Lẩu Thái     │  Combo Nhậu   │  Gà Nướng     │
-│  Hải Sản      │  4 Món        │  Muối Ớt      │
-│  🔥 Best-seller│  🍻 Combo bạn │  🌶️ Cay nhẹ   │
-│  299.000đ     │  399.000đ     │  189.000đ     │
-├───────────────┴───────┬───────┴───────────────┤
-│  [Ảnh ngang - rộng]   │  [Ảnh]                │
-│  Set Đồ Uống Giải Nhiệt│  Ốc Hương Rang Muối   │
-│  🍹 Mát lạnh          │  🦪 Đặc sản            │
-│  149.000đ             │  169.000đ             │
-└───────────────────────┴───────────────────────┘
-```
-
-**Nội dung placeholder cho mỗi card:**
-- Ảnh AI-upscale món ăn (aspect ratio linh hoạt theo bento: 1:1, 4:3, hoặc 16:9 cho card rộng).
-- Tag nổi góc trên trái: "🔥 Best-seller" / "🍻 Combo Nhậu" / "🌶️ Cay" / "🆕 Món Mới" (badge màu tương phản, bo tròn).
-- Tên món (font đậm), mô tả ngắn 1 dòng (vd: "Lẩu Thái chua cay đậm đà, đầy ắp hải sản tươi").
-- Giá (font số nổi bật, màu đất nung).
-- Nút nhỏ "Xem chi tiết" hoặc icon "+" thêm vào đặt bàn (tuỳ chọn nâng cao).
-
-**Hành vi tương tác:**
-- Grid layout dùng CSS Grid với `grid-template-areas` khác nhau để tạo hiệu ứng bento không đều (1 ô lớn + nhiều ô nhỏ).
-- Hover (desktop): ảnh zoom nhẹ (`scale-110` trong container `overflow-hidden`), overlay gradient tối dần hiện lên, card nâng lên (`translateY(-4px)` + shadow đậm hơn).
-- Mobile: horizontal snap-scroll carousel cho các card (nếu không dùng grid dọc), dùng `scroll-snap-type: x mandatory`.
-- Entrance animation: các card fade-up + stagger khi vào viewport (delay tăng dần theo index).
-- Badge tag: micro pulse hoặc shimmer nhẹ để thu hút mắt vào "Best-seller".
-
----
-
-### 3.4 Ambiance & Dining Spaces
-
-**Mục đích:** Truyền tải cảm giác không gian — vừa ấm cúng cho gia đình (trong nhà, máy lạnh), vừa thoáng đãng cho nhóm nhậu (bán ngoài trời).
-
-**Wireframe (Photo Grid + Tab/Toggle):**
-```
-┌─────────────────────────────────────────────────────────┐
-│         Không Gian Sum Vầy — Cho Mọi Khoảnh Khắc         │
-│                                                           │
-│   [ Tab: Khu Gia Đình (Mát Lạnh) ]  [ Tab: Khu Nhậu (Thoáng) ] │
-│                                                           │
-│  ┌───────┐ ┌───────┐ ┌───────┐ ┌───────┐                │
-│  │ Ảnh 1 │ │ Ảnh 2 │ │ Ảnh 3 │ │ Ảnh 4 │  (masonry grid) │
-│  └───────┘ └───────┘ └───────┘ └───────┘                │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Nội dung placeholder:**
-- Heading: "Không Gian Sum Vầy — Cho Mọi Khoảnh Khắc".
-- Toggle/Tab 2 lựa chọn:
-  - **"Khu Gia Đình (Mát Lạnh)"**: ảnh phòng máy lạnh, bàn tròn rộng, trang trí ấm cúng, phù hợp trẻ em/người lớn tuổi.
-  - **"Khu Nhậu (Thoáng Mát)"**: ảnh khu bán ngoài trời/sân vườn, đèn lồng, bàn ghế gỗ mộc, không gian mở cho nhóm đông vui.
-- Photo grid dạng masonry (ảnh cao thấp không đều tạo cảm giác tự nhiên, không cứng nhắc như grid đều).
-- Caption nhỏ dưới mỗi ảnh (optional): "Phòng VIP máy lạnh 6-10 khách", "Sân vườn ngoài trời view cây xanh"...
-
-**Hành vi tương tác:**
-- Chuyển tab: crossfade animation giữa 2 bộ ảnh (opacity transition 300ms, không giật layout — dùng `AnimatePresence` của Framer Motion).
-- Click vào ảnh: mở lightbox/gallery fullscreen (swipe để xem ảnh kế trên mobile).
-- Hover ảnh (desktop): overlay nhẹ tối + icon kính lúp phóng to xuất hiện giữa ảnh.
-- Scroll-in: ảnh xuất hiện theo hiệu ứng stagger từ dưới lên, mỗi ảnh delay 80–100ms.
-
----
-
-### 3.5 Social Proof & Google Maps Rating
-
-**Mục đích:** Xây dựng niềm tin qua đánh giá thực tế, giảm rào cản quyết định của khách mới.
-
-**Wireframe:**
-```
-┌─────────────────────────────────────────────────────────┐
-│     ⭐⭐⭐⭐⭐ 4.8/5 — 1.200+ đánh giá trên Google         │
-│                                                           │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐      │
-│  │ "Món ăn..." │  │ "Không gian.."│ │ "Phục vụ..." │      │
-│  │ ⭐⭐⭐⭐⭐    │  │ ⭐⭐⭐⭐⭐     │  │ ⭐⭐⭐⭐⭐    │      │
-│  │ - Anh Minh  │  │ - Chị Lan     │  │ - Anh Đức    │      │
-│  └─────────────┘  └─────────────┘  └─────────────┘      │
-│              [Badge: Google Verified]                    │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Nội dung placeholder:**
-- Header lớn: rating tổng hợp "⭐ 4.8/5 — 1.200+ đánh giá trên Google" kèm logo Google nhỏ để tăng độ tin cậy.
-- 3 review card mẫu (placeholder text ngắn, chân thực, có tên khách + avatar tròn/emoji, số sao):
-  - "Món lẩu ở đây đậm đà, y hệt vị nhà nấu, cả nhà mình ăn xong còn đòi quay lại." — Anh Minh
-  - "Không gian ngoài trời mát mẻ, nhậu với bạn bè cuối tuần cực đã." — Chị Lan
-  - "Nhân viên nhiệt tình, phục vụ nhanh dù cuối tuần đông khách." — Anh Đức
-- Trust badge: "Google Verified Business" hoặc icon xác thực.
-
-**Hành vi tương tác:**
-- Trên mobile: carousel horizontal swipe qua từng review card, dot indicator bên dưới.
-- Trên desktop: 3 card hiển thị song song, hover → card nhấc nhẹ lên + border sáng màu bamboo.
-- Rating tổng: đếm số animate (count-up từ 0 → 4.8) khi section vào viewport lần đầu.
-- Optional: nhúng Google Reviews widget thực (qua Google Places API) để tự động cập nhật đánh giá mới nhất thay vì hard-code.
-
----
-
-### 3.6 Location & Quick Contact
-
-**Mục đích:** Giúp khách tìm đường nhanh nhất, giảm ma sát giữa "muốn đến" và "đến được".
-
-**Wireframe:**
-```
-┌─────────────────────────────────────────────────────────┐
-│  [ Google Maps Embed - interactive ]  │  Thông tin liên hệ│
-│                                        │  📍 Địa chỉ...    │
-│                                        │  🕒 10:00-23:00   │
-│                                        │  📞 09xx xxx xxx  │
-│                                        │  [Chỉ Đường Ngay] │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Nội dung placeholder:**
-- Bản đồ nhúng Google Maps (iframe interactive, pin đỏ tại vị trí quán) — chiếm ~60% chiều rộng trên desktop, full-width trên mobile (dưới phần thông tin).
-- Panel thông tin bên phải/dưới:
-  - 📍 Địa chỉ: "123 Đường ABC, Phường XYZ, Quận..." (placeholder)
-  - 🕒 Giờ hoạt động: "10:00 – 23:00, tất cả các ngày trong tuần"
-  - 📞 Hotline: "090 xxx xxx"
-  - Nút "📍 Chỉ Đường Ngay" — deep-link mở Google Maps app (native) hoặc web.
-  - Nút "📞 Gọi Đặt Bàn" — `tel:` link.
-
-**Hành vi tương tác:**
-- Map: click vào pin → hiện info-window mini (tên quán + ảnh thumbnail + nút "Xem trên Google Maps").
-- Nút "Chỉ Đường Ngay": detect device — mobile mở app Maps native (`geo:` hoặc `maps://`), desktop mở tab mới Google Maps web.
-- Panel thông tin: fade-in từ phải khi scroll vào viewport.
-- Optional: hiển thị trạng thái "Đang mở cửa" / "Đã đóng cửa" real-time dựa theo giờ hệ thống so với giờ hoạt động.
-
----
-
-### 3.7 Floating Action Dock (Mobile Sticky Footer)
-
-**Mục đích:** Giữ 3 hành động chuyển đổi quan trọng nhất luôn trong tầm ngón tay cái trên mobile — nơi phần lớn traffic tới từ.
-
-**Wireframe (chỉ hiện trên mobile, `hidden md:hidden` desktop, hoặc desktop dùng floating button nhỏ góc phải):**
-```
-┌─────────────────────────────────────────────────────────┐
-│   [ 📞 Gọi Ngay ]   [ 💬 Zalo Chat ]   [ 🍽️ Đặt Bàn ]    │
-└─────────────────────────────────────────────────────────┘
-        (thanh cố định đáy màn hình, luôn hiển thị)
-```
-
-**Nội dung placeholder:**
-- 3 nút chia đều chiều ngang (`grid-cols-3`), mỗi nút icon + label ngắn:
-  1. **📞 Gọi Ngay** — `tel:` link trực tiếp, màu nền đất nung.
-  2. **💬 Zalo Chat** — mở Zalo app/link chat trực tiếp (`https://zalo.me/...`), màu xanh Zalo.
-  3. **🍽️ Đặt Bàn** — nút nổi bật nhất (accent color khác biệt, có thể to hơn 2 nút kia hoặc icon nổi lên trên thanh dock kiểu FAB), mở modal/form đặt bàn nhanh.
-
-**Hành vi tương tác:**
-- Thanh dock: `position: fixed; bottom: 0`, nền trắng/be với `backdrop-blur` + shadow hắt lên trên, an toàn vùng `safe-area-inset-bottom` cho iPhone có home indicator.
-- Ẩn/hiện thông minh: ẩn khi scroll xuống nhanh (đọc nội dung), hiện lại khi scroll lên hoặc dừng scroll — tránh che nội dung liên tục nhưng vẫn luôn sẵn sàng.
-- Nút "Đặt Bàn" trung tâm: có thể thiết kế nổi bật hơn (elevated circle button nhô lên khỏi thanh dock) để nhấn mạnh CTA chuyển đổi chính, kèm subtle pulse animation định kỳ (vd mỗi 8s) để thu hút chú ý.
-- Tap feedback: scale-down nhẹ khi nhấn (active state) cho cảm giác phản hồi tức thì.
-- Trên desktop: thay bằng 1 nút tròn floating góc dưới phải ("Đặt Bàn Ngay") mở rộng thành menu mini khi hover (hiện thêm icon Gọi/Zalo).
-
----
-
-## 4. Cấu Trúc Component (React) Đề Xuất
+## 4. Kiến Trúc Component (Next.js) Đề Xuất
 
 ```
 src/
+├── app/
+│   ├── page.tsx                    # Trang chủ SPA, ghép các section
+│   ├── api/
+│   │   └── booking/route.ts        # API route xử lý & forward tới Zalo/Telegram webhook
+│   └── layout.tsx
 ├── components/
 │   ├── layout/
-│   │   ├── Navbar.jsx
-│   │   ├── FloatingActionDock.jsx
-│   │   └── Footer.jsx
+│   │   ├── MarqueeTicker.tsx
+│   │   ├── Navbar.tsx
+│   │   └── FloatingActionDock.tsx
 │   ├── sections/
-│   │   ├── Hero.jsx
-│   │   ├── HighlightMenu.jsx
-│   │   ├── AmbianceSpaces.jsx
-│   │   ├── SocialProof.jsx
-│   │   └── LocationContact.jsx
+│   │   ├── HeroSection.tsx
+│   │   ├── SignatureShowcase.tsx
+│   │   ├── MenuGrid.tsx
+│   │   ├── AtmosphereRooms.tsx
+│   │   └── Footer.tsx
 │   ├── ui/
-│   │   ├── MenuCard.jsx
-│   │   ├── ReviewCard.jsx
-│   │   ├── SectionHeading.jsx
-│   │   ├── Badge.jsx
-│   │   └── Button.jsx
+│   │   ├── CutoutFoodCard.tsx      # Card menu với hiệu ứng border-break
+│   │   ├── CategoryTabs.tsx        # Tabs với layoutId="activePill"
+│   │   ├── FloatingParticle.tsx    # Component particle trôi nổi tái sử dụng
+│   │   ├── GlowBadge.tsx
+│   │   └── MagneticButton.tsx      # Nút CTA hiệu ứng magnetic hover
 │   └── modals/
-│       └── ReservationModal.jsx
+│       └── BookingModal.tsx        # Modal 3 bước
 ├── hooks/
-│   ├── useScrollSpy.js
-│   └── useScrollDirection.js
+│   ├── useScrollSpy.ts
+│   ├── useScrollDirection.ts
+│   └── useMouseTilt.ts             # Hook tilt ảnh hero theo con trỏ chuột
 ├── data/
-│   ├── menuItems.js
-│   ├── reviews.js
-│   └── gallery.js
-├── App.jsx
-└── index.css (Tailwind config + custom CSS vars màu brand)
+│   ├── menuItems.ts
+│   ├── signatureDishes.ts
+│   └── rooms.ts
+├── lib/
+│   └── webhook.ts                  # Helper gửi dữ liệu booking tới Zalo/Telegram
+└── styles/
+    └── globals.css                 # Tailwind + custom keyframes (marquee, glow-pulse, float)
 ```
 
 ---
 
-## 5. Thứ Tự Triển Khai (Roadmap)
+## 5. Custom Tailwind / CSS Cần Bổ Sung
 
-1. **Setup:** Khởi tạo project React + Tailwind, cấu hình theme màu/font brand trong `tailwind.config.js`.
-2. **Layout khung:** Navbar + Footer + Floating Dock (static trước, chưa animation).
-3. **Hero Section:** Ảnh nền, headline, CTA — đây là first impression, ưu tiên polish sớm.
-4. **Highlight Menu:** Bento grid + dữ liệu mẫu (data/menuItems.js).
-5. **Ambiance Section:** Tab toggle + photo grid/masonry.
-6. **Social Proof:** Review cards + rating counter.
-7. **Location Section:** Nhúng Google Maps + panel thông tin.
-8. **Scroll-spy + animation pass:** Gắn `IntersectionObserver`/Framer Motion cho toàn bộ section.
-9. **Responsive QA:** Test kỹ trên mobile 360px–430px (nhóm khách hàng chính dùng điện thoại).
-10. **Performance pass:** Nén ảnh, lazy-load, kiểm tra Lighthouse score.
+```js
+// tailwind.config.js (trích đoạn liên quan)
+theme: {
+  extend: {
+    colors: {
+      charcoal: { DEFAULT: '#1A1714', light: '#211C18' },
+      amber: { DEFAULT: '#F5A623', soft: '#FFB74D' },
+      neonYellow: '#FFE14D',
+      chiliRed: '#E8452C',
+    },
+    keyframes: {
+      marquee: {
+        '0%': { transform: 'translateX(0)' },
+        '100%': { transform: 'translateX(-50%)' },
+      },
+      glowPulse: {
+        '0%, 100%': { boxShadow: '0 0 0 0 rgba(245,166,35,0.5)' },
+        '50%': { boxShadow: '0 0 0 10px rgba(245,166,35,0)' },
+      },
+      floatY: {
+        '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+        '50%': { transform: 'translateY(-15px) rotate(5deg)' },
+      },
+    },
+    animation: {
+      marquee: 'marquee 25s linear infinite',
+      'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+      float: 'floatY 6s ease-in-out infinite',
+    },
+  },
+}
+```
 
 ---
 
-## 6. Ghi Chú Nội Dung Cần Khách Hàng Cung Cấp
+## 6. Thứ Tự Triển Khai (Roadmap Kỹ Thuật)
 
-- [ ] Tên quán chính thức + logo vector.
-- [ ] Ảnh món ăn chất lượng cao (tối thiểu 6 món signature).
-- [ ] Ảnh không gian thật (khu gia đình + khu nhậu ngoài trời).
-- [ ] Địa chỉ chính xác + toạ độ Google Maps.
-- [ ] Số điện thoại hotline + link Zalo OA chính thức.
-- [ ] Giờ hoạt động chi tiết (có ngày lễ/nghỉ riêng không).
-- [ ] Đánh giá khách hàng thật (screenshot Google Reviews để xin phép sử dụng).
+1. **Setup nền tảng:** Next.js (App Router) + Tailwind + Framer Motion + GSAP, cấu hình theme màu/keyframes ở trên.
+2. **Layout khung:** MarqueeTicker + Navbar + FloatingActionDock (static, chưa gắn logic scroll-hide).
+3. **Hero Section:** dựng layout 2 cột, headline kinetic reveal, ảnh hero cutout + mouse-tilt hook + particles nền.
+4. **CutoutFoodCard component:** chuẩn hoá kỹ thuật border-break effect + drop-shadow — đây là component lõi tái sử dụng ở cả Signature Showcase và MenuGrid.
+5. **Signature Showcase:** carousel + spring hover, dùng CutoutFoodCard.
+6. **MenuGrid + CategoryTabs:** tabs với `layoutId`, filter transition, grid responsive.
+7. **AtmosphereRooms:** split layout + hover ambient glow + scroll-in từ 2 hướng.
+8. **BookingModal + API route:** xây stepper 3 bước, nối API `/api/booking` → webhook Zalo/Telegram (dùng biến môi trường `.env` cho URL webhook, không hardcode).
+9. **FloatingActionDock logic:** hook `useScrollDirection` để ẩn/hiện, gắn pulsing CTA.
+10. **Polish chuyển động toàn trang:** rà soát timing, đảm bảo animation không gây giật trên thiết bị tầm trung (test throttle CPU 4x trong DevTools).
+11. **Responsive & Accessibility QA:** kiểm tra tương phản chữ trên nền tối (WCAG AA), đảm bảo particles/motion có thể tắt được nếu người dùng bật `prefers-reduced-motion`.
+12. **Performance pass:** nén ảnh cutout (WebP), preload ảnh hero, kiểm tra Lighthouse (đặc biệt CLS do ảnh tràn khung ở MenuGrid).
+
+---
+
+## 7. Ghi Chú Cần Khách Hàng / Design Cung Cấp
+
+- [ ] Bộ ảnh món ăn đã tách nền (cutout) chất lượng cao cho toàn bộ file trong `image_rvbg/` liệt kê ở mục 2.1.
+- [ ] Danh sách đầy đủ món theo 4 category (Mồi Lai Rai / Món Nhậu Đậm Vị / Lẩu & Nướng / Bia Lạnh & Giải Khát) kèm giá.
+- [ ] Ảnh không gian ngoài trời + phòng VIP karaoke (độ phân giải cao, ánh sáng thật của quán).
+- [ ] URL webhook Zalo OA hoặc Telegram Bot token để tích hợp nhận thông báo đặt bàn.
+- [ ] Nội dung khuyến mãi hiện tại cho marquee ticker (ưu đãi, chương trình theo mùa).
+- [ ] Xác nhận số chi nhánh (nếu >1) để thiết kế phần "Chi Nhánh" trong navbar.
+
+---
+
+## 8. So Sánh Nhanh Với Bản v1 (Tham Chiếu)
+
+| Tiêu chí | v1 (Mộc mạc, ấm cúng) | v2 — Bản Nâng Cấp (Kinetic, Night-market) |
+|---|---|---|
+| Nền chủ đạo | Be/bamboo sáng | Charcoal tối, ánh đèn glow |
+| Motion | Fade/slide nhẹ nhàng | Parallax, marquee, magnetic button, spring physics |
+| Ảnh món ăn | Ảnh thường trong khung bo góc | Cutout PNG tràn khung, drop-shadow 3D |
+| Đặt bàn | Modal đơn giản | Stepper 3 bước + webhook Zalo/Telegram real-time |
+| Tương tác nổi bật | Hover nâng nhẹ card | Tilt theo chuột, coverflow slider, glow-pulse CTA |
