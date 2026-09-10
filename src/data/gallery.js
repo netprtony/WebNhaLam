@@ -12,7 +12,7 @@ export const galleryImages = {
     },
     {
       src: '/images/KhongGian/khonggianquan.png',
-      caption: 'Không gian ngoài trời với biển hiệu Dốc Mơ',
+      caption: 'Không gian ngoài trời với biển hiệu Dốc Mơ Quán',
       aspect: 'square',
     },
     {
@@ -49,7 +49,7 @@ export const galleryImages = {
     },
     {
       src: '/images/KhongGian/Ảnh chụp màn hình 2026-09-09 140839.png',
-      caption: 'Biển hiệu Dốc Mơ rực rỡ ban đêm',
+      caption: 'Biển hiệu Dốc Mơ Quán rực rỡ ban đêm',
       aspect: 'tall',
     },
     {

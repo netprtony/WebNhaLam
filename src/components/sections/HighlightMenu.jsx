@@ -7,22 +7,23 @@ import DishDetailModal from '../ui/DishDetailModal';
 
 export default function HighlightMenu() {
   const [selectedDish, setSelectedDish] = useState(null);
+
   return (
-    <section id="mon-ngon" className="section-padding bg-brand-cream">
+    <section id="mon-ngon" className="section-padding bg-brand-bg relative border-b border-brand-cream/15">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
-          title="Món Ngon Đặc Sắc"
-          subtitle="Những món signature được yêu thích nhất tại Dốc Mơ"
-          emoji="🍲"
+          title="MỒI TỦ • ĐẶC SẮC QUÁN"
+          subtitle="Những món bén bia, đậm vị nhà nấu được anh em gọi nhiều nhất tại Dốc Mơ Quán"
+          emoji="🍢"
         />
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-10 sm:mt-12">
           {menuHighlights.map((item, index) => (
             <motion.div
               key={item.id}
               className={item.span}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -34,21 +35,22 @@ export default function HighlightMenu() {
 
         {/* View full menu link */}
         <motion.div
-          className="text-center mt-10"
+          className="text-center mt-12"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <p className="text-brand-charcoal/60 text-sm mb-4">
-            Còn rất nhiều món ngon khác đang chờ bạn khám phá 🍜
+          <p className="font-stencil text-xs sm:text-sm text-brand-cream/60 uppercase tracking-widest mb-4">
+            CÒN HƠN 60+ MÓN MỒI BÉN & ĐỒ UỐNG ĐANG CHỜ BẠN LÊN BÀN 🍻
           </p>
           <button
             onClick={() => {
               document.getElementById('thuc-don')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-olive text-white font-semibold text-sm hover:bg-brand-olive-dark transition-all duration-300 hover:scale-105 shadow-md"
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded bg-brand-cream text-brand-bg font-retro font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-brand-cream-light transition-all duration-300 hover:scale-105 shadow-xl border-2 border-brand-cream active:scale-95"
           >
-            📜 Xem Toàn Bộ Thực Đơn
+            <span>📜</span>
+            <span>XEM TOÀN BỘ BẢNG MỒI DỐC MƠ QUÁN</span>
           </button>
         </motion.div>
       </div>

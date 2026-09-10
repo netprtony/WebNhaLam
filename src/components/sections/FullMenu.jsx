@@ -3,14 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SectionHeading from '../ui/SectionHeading';
 import DishDetailModal from '../ui/DishDetailModal';
 
-// Emoji icons cho từng category
+// Street-style icons cho từng danh mục quán nhậu
 const categoryIcons = {
-  'KHAI VỊ': '🥗',
-  'LAI RAI': '🍗',
-  'MÓN XÀO': '🍳',
-  'LẨU & NƯỚNG': '🍲',
-  'TRÀ & NƯỚC NGỌT': '🍹',
-  'BIA CÁC LOẠI': '🍺',
+  'KHAI VỊ': '🥢',
+  'LAI RAI': '🍢',
+  'MÓN XÀO': '🥘',
+  'LẨU & NƯỚNG': '♨️',
+  'TRÀ & NƯỚC NGỌT': '🧊',
+  'BIA CÁC LOẠI': '🍻',
 };
 
 const foodImages = [
@@ -87,37 +87,37 @@ export default function FullMenu() {
 
   if (isLoading) {
     return (
-      <section id="thuc-don" className="section-padding bg-white">
+      <section id="thuc-don" className="section-padding bg-brand-bg">
         <div className="flex items-center justify-center py-20">
-          <div className="w-10 h-10 border-4 border-brand-olive border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-brand-cream border-t-transparent rounded-full animate-spin" />
         </div>
       </section>
     );
   }
 
   return (
-    <section id="thuc-don" className="section-padding bg-white overflow-hidden">
+    <section id="thuc-don" className="section-padding bg-brand-bg-alt/90 text-brand-cream relative border-b border-brand-cream/15 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
-          title="Thực Đơn"
-          subtitle="Khám phá đầy đủ các món ngon tại Dốc Mơ — từ khai vị đến đồ uống"
-          emoji="📜"
+          title="BẢNG MỒI • THỰC ĐƠN QUÁN"
+          subtitle="Đầy đủ các món mồi bén, lẩu nướng nóng hổi và đồ uống giải nhiệt tại Dốc Mơ Quán"
+          emoji="📋"
         />
 
         {/* Category tabs — horizontal scroll on mobile */}
         <div className="mt-10 -mx-4 px-4 overflow-x-auto scrollbar-hide">
-          <div className="flex gap-2 md:gap-3 md:justify-center min-w-max pb-2">
+          <div className="flex gap-2 sm:gap-3 md:justify-center min-w-max pb-2">
             {menuData.map((cat) => (
               <button
                 key={cat.category}
                 onClick={() => setActiveCategory(cat.category)}
-                className={`relative flex items-center gap-2 px-4 md:px-5 py-2.5 md:py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 ${
+                className={`relative flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded text-xs sm:text-sm font-stencil font-extrabold uppercase tracking-wider whitespace-nowrap transition-all duration-300 ${
                   activeCategory === cat.category
-                    ? 'bg-brand-olive text-white shadow-lg scale-105'
-                    : 'bg-brand-cream text-brand-charcoal/70 hover:bg-brand-cream-dark hover:text-brand-charcoal'
+                    ? 'bg-brand-cream text-brand-bg shadow-xl scale-105 border-2 border-brand-cream'
+                    : 'bg-brand-bg-deep text-brand-cream/70 border border-brand-cream/25 hover:border-brand-cream hover:text-brand-cream'
                 }`}
               >
-                <span className="text-lg">{categoryIcons[cat.category] || '🍴'}</span>
+                <span className="text-base sm:text-lg">{categoryIcons[cat.category] || '🍴'}</span>
                 <span>{cat.category}</span>
               </button>
             ))}
@@ -136,27 +136,27 @@ export default function FullMenu() {
               className="mt-8"
             >
               {/* Category header with image */}
-              <div className="relative rounded-2xl overflow-hidden h-40 md:h-52 mb-8">
+              <div className="relative rounded-2xl overflow-hidden h-40 sm:h-52 mb-8 border-2 border-brand-cream/30 shadow-2xl">
                 <img
                   src={categoryImages[activeCategory] || foodImages[0]}
                   alt={activeCategory}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover filter brightness-75 contrast-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-                <div className="absolute inset-0 flex items-center px-6 md:px-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-brand-bg-deep/95 via-brand-bg-deep/60 to-transparent" />
+                <div className="absolute inset-0 flex items-center px-6 sm:px-10">
                   <div>
-                    <span className="text-4xl md:text-5xl">
+                    <span className="text-4xl sm:text-5xl">
                       {categoryIcons[activeCategory] || '🍴'}
                     </span>
-                    <h3 className="font-display text-2xl md:text-4xl font-bold text-white mt-2">
+                    <h3 className="font-retro text-2xl sm:text-4xl font-black text-brand-cream uppercase tracking-tight mt-2">
                       {activeCategory}
                     </h3>
-                    <p className="text-white/70 text-sm mt-1">
+                    <p className="font-stencil text-xs sm:text-sm text-brand-cream/80 uppercase tracking-widest mt-1 font-bold">
                       {activeCategoryData.sections.reduce(
                         (sum, s) => sum + s.items.length,
                         0
                       )}{' '}
-                      món
+                      MÓN SẴN SÀNG LÊN BÀN
                     </p>
                   </div>
                 </div>
@@ -173,17 +173,17 @@ export default function FullMenu() {
                   >
                     {/* Section title */}
                     <div className="flex items-center gap-3 mb-5">
-                      <div className="w-1 h-8 rounded-full bg-brand-clay" />
-                      <h4 className="font-display text-xl md:text-2xl font-bold text-brand-charcoal">
+                      <div className="w-1.5 h-7 rounded-full bg-brand-cream" />
+                      <h4 className="font-retro text-lg sm:text-2xl font-black text-brand-cream uppercase tracking-tight">
                         {section.section_name}
                       </h4>
-                      <span className="text-xs bg-brand-cream text-brand-charcoal/50 px-2 py-1 rounded-full font-medium">
-                        {section.items.length} món
+                      <span className="font-stencil text-[11px] bg-brand-cream text-brand-bg px-2.5 py-0.5 rounded font-black tracking-wider uppercase">
+                        {section.items.length} MÓN
                       </span>
                     </div>
 
                     {/* Menu items grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                       {section.items.map((item, itemIdx) => {
                         const itemImage = getItemImage(item.name, itemIdx);
                         return (
@@ -200,41 +200,40 @@ export default function FullMenu() {
                                 section: section.section_name,
                               })
                             }
-                            className="group flex gap-4 p-4 rounded-xl bg-brand-cream/50 hover:bg-brand-cream border border-transparent hover:border-brand-bamboo/40 transition-all duration-300 hover:warm-shadow cursor-pointer hover:-translate-y-0.5"
+                            className="group flex gap-3.5 sm:gap-4 p-4 rounded-xl bg-brand-bg-surface border-2 border-brand-cream/20 hover:border-brand-cream transition-all duration-300 hover:shadow-xl cursor-pointer hover:-translate-y-1"
                           >
                             {/* Food image */}
-                            <div className="shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-brand-cream relative">
+                            <div className="shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-brand-bg-deep border border-brand-cream/20 relative">
                               <img
                                 src={itemImage}
                                 alt={item.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                               />
-                              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                             </div>
 
                             {/* Item info */}
                             <div className="flex-1 min-w-0 flex flex-col justify-between">
                               <div>
                                 <div className="flex items-start justify-between gap-2">
-                                  <h5 className="font-semibold text-brand-charcoal text-sm leading-tight group-hover:text-brand-olive transition-colors">
+                                  <h5 className="font-retro font-black text-brand-cream text-xs sm:text-sm uppercase tracking-tight leading-snug group-hover:text-brand-cream-light transition-colors">
                                     {item.name}
                                     {item.name.includes('***') && (
-                                      <span className="ml-1 text-red-500 text-xs">🔥</span>
+                                      <span className="ml-1 text-xs">🔥</span>
                                     )}
                                   </h5>
-                                  <span className="shrink-0 font-bold text-brand-clay text-sm">
+                                  <span className="shrink-0 font-retro font-black text-brand-cream text-sm sm:text-base">
                                     {item.price}
                                   </span>
                                 </div>
                                 {item.description && (
-                                  <p className="text-xs text-brand-charcoal/50 mt-1 line-clamp-2 leading-relaxed">
+                                  <p className="text-[11px] sm:text-xs text-brand-cream/70 mt-1 line-clamp-2 font-medium leading-relaxed">
                                     {item.description}
                                   </p>
                                 )}
                               </div>
-                              <div className="mt-2 flex items-center justify-between">
-                                <span className="text-[11px] text-brand-charcoal/40 group-hover:text-brand-clay font-medium transition-colors">
-                                  Xem chi tiết →
+                              <div className="mt-2 flex items-center justify-between pt-1 border-t border-brand-cream/15">
+                                <span className="font-stencil text-[10px] text-brand-cream/60 group-hover:text-brand-cream font-bold tracking-wider uppercase transition-colors">
+                                  XEM CHI TIẾT →
                                 </span>
                               </div>
                             </div>
@@ -251,28 +250,30 @@ export default function FullMenu() {
 
         {/* Bottom note */}
         <motion.div
-          className="text-center mt-12 pt-8 border-t border-brand-cream-dark"
+          className="text-center mt-12 pt-8 border-t border-brand-cream/20"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <p className="text-brand-charcoal/50 text-sm">
-            💡 Giá có thể thay đổi tùy thời điểm. Liên hệ quán để biết thêm chi tiết.
+          <p className="font-stencil text-xs sm:text-sm text-brand-cream/70 uppercase tracking-wider">
+            💡 MÓN ĂN CHẾ BIẾN NÓNG HỔI KHI GỌI. ANH EM ĐẶT TRƯỚC ĐỂ QUÁN PHỤC VỤ CHU ĐÁO NHẤT!
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-4">
             <a
               href="tel:0984586248"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-clay text-white text-sm font-semibold hover:bg-brand-clay-dark transition-colors hover:scale-105 transition-transform shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded bg-brand-cream text-brand-bg font-retro font-black text-xs uppercase tracking-wider hover:bg-brand-cream-light transition-all duration-300 hover:scale-105 shadow-xl border border-brand-cream active:scale-95"
             >
-              📞 Gọi Đặt Món
+              <span>☎</span>
+              <span>GỌI ĐẶT MÓN: 0984 586 248</span>
             </a>
             <a
               href="https://zalo.me/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-zalo text-white text-sm font-semibold hover:bg-blue-700 transition-colors hover:scale-105 transition-transform shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded border border-brand-cream text-brand-cream font-stencil font-bold text-xs uppercase tracking-wider hover:bg-brand-cream/15 transition-all duration-300 hover:scale-105 shadow-md active:scale-95"
             >
-              💬 Đặt Qua Zalo
+              <span>💬</span>
+              <span>ĐẶT QUA ZALO</span>
             </a>
           </div>
         </motion.div>
