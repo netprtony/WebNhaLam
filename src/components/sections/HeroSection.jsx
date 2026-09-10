@@ -1,14 +1,96 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import FloatingParticle from '../ui/FloatingParticle';
+
+// Danh sách các món chủ đạo thay đổi ngẫu nhiên ở giữa Hero
+const HERO_DISHES = [
+  {
+    id: 'goibo',
+    name: 'Gỏi Bắp Bò Tái Chanh',
+    badge: '⭐ Gỏi Bắp Bò Tái Chanh',
+    image: '/images/image_rvbg/goibo.png',
+    price: '75K',
+    tag: 'Best Seller',
+    description: 'Bắp bò tái chanh chua ngọt, giòn sần sật, thơm mè rang',
+  },
+  {
+    id: 'tomsotthai',
+    name: 'Tôm Sốt Thái Chua Cay',
+    badge: '🌶️ Tôm Sốt Thái Chua Cay',
+    image: '/images/image_rvbg/tomsotthai.png',
+    price: '99K',
+    tag: 'Cay Nồng Bén Lửa',
+    description: 'Tôm sú tươi giòn xốt Thái chua cay chuẩn vị',
+  },
+  {
+    id: 'lau',
+    name: 'Lẩu Đặc Biệt Dốc Mơ Quán',
+    badge: '🍲 Lẩu Nghi Ngút Bốc Khói',
+    image: '/images/foods/lau.png',
+    price: '199K',
+    tag: 'Món Trùm Của Quán',
+    description: 'Thịt bò Mỹ, viên chiên, rau tươi và nước dùng đậm đà',
+  },
+  {
+    id: 'muc',
+    name: 'Mực Đại Dương Nướng Than',
+    badge: '🍢 Mực Đại Dương Nướng',
+    image: '/images/image_rvbg/muc.png',
+    price: '89K',
+    tag: 'Bắt Bia Cực Đã',
+    description: 'Mực nướng than hồng thơm phức, chấm muối ớt xanh',
+  },
+  {
+    id: 'chagio',
+    name: 'Chả Giò Rế Giòn Rụm',
+    badge: '🔥 Chả Giò Rế Vàng Giòn',
+    image: '/images/image_rvbg/chagio.png',
+    price: '55K',
+    tag: 'Lai Rai Đậm Vị',
+    description: 'Nhân tôm thịt đậm đà, vỏ rế giòn rụm tan trong miệng',
+  },
+  {
+    id: 'boluclac',
+    name: 'Bò Lúc Lắc Cháy Tỏi',
+    badge: '🥩 Bò Lúc Lắc Cháy Tỏi',
+    image: '/images/foods/boluclac.png',
+    price: '119K',
+    tag: 'Mồi Nhậu Bén',
+    description: 'Bò mềm xào ớt chuông, hành tây sốt tiêu đen đậm đà',
+  },
+];
 
 const HeroSection = ({ onBooking }) => {
   const containerRef = useRef(null);
+
+  // Món ăn chủ đạo được chọn ngẫu nhiên
+  const [currentDishIndex, setCurrentDishIndex] = useState(0);
+
+  // Hiệu ứng di chuột mạnh mẽ
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
+  const [moveX, setMoveX] = useState(0);
+  const [moveY, setMoveY] = useState(0);
 
+  // Khởi tạo ngẫu nhiên món ăn khi vào trang + tự động đổi món sau mỗi 7 giây
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * HERO_DISHES.length);
+    setCurrentDishIndex(randomIndex);
+
+    const interval = setInterval(() => {
+      setCurrentDishIndex((prev) => (prev + 1) % HERO_DISHES.length);
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleNextDish = () => {
+    setCurrentDishIndex((prev) => (prev + 1) % HERO_DISHES.length);
+  };
+
+  // Di chuyển chuột với góc xoay và độ dịch chuyển mạnh mẽ hơn
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -17,17 +99,25 @@ const HeroSection = ({ onBooking }) => {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    // Max rotation of ±7deg
-    const rotateXValue = ((y - centerY) / centerY) * -7;
-    const rotateYValue = ((x - centerX) / centerX) * 7;
+    // Góc nghiêng mạnh: ±18deg
+    const rotateXValue = ((y - centerY) / centerY) * -18;
+    const rotateYValue = ((x - centerX) / centerX) * 18;
+
+    // Tọa độ dịch chuyển theo con trỏ chuột: ±24px
+    const moveXValue = ((x - centerX) / centerX) * 24;
+    const moveYValue = ((y - centerY) / centerY) * 24;
 
     setRotateX(rotateXValue);
     setRotateY(rotateYValue);
+    setMoveX(moveXValue);
+    setMoveY(moveYValue);
   };
 
   const handleMouseLeave = () => {
     setRotateX(0);
     setRotateY(0);
+    setMoveX(0);
+    setMoveY(0);
   };
 
   const containerVariants = {
@@ -49,6 +139,11 @@ const HeroSection = ({ onBooking }) => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const currentDish = HERO_DISHES[currentDishIndex];
+
+  // Lấy các món vệ tinh khác với món đang hiển thị ở giữa
+  const satelliteDishes = HERO_DISHES.filter((_, idx) => idx !== currentDishIndex);
+
   return (
     <section className="min-h-screen relative overflow-hidden flex items-center bg-charcoal pt-24 pb-16 md:py-0">
       {/* Background ambient radial lights */}
@@ -63,49 +158,63 @@ const HeroSection = ({ onBooking }) => {
             {/* Center glow */}
             <div className="absolute inset-0 bg-amber-500/25 rounded-full blur-[70px] scale-125 pointer-events-none" />
 
-            {/* Main dish */}
-            <img
-              src="/images/image_rvbg/goibo.png"
-              alt="Gỏi Bò Dốc Mơ Quán"
-              className="w-full h-auto object-contain cutout-shadow relative z-10"
-            />
+            {/* Main dish mobile with animation */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentDish.id}
+                initial={{ opacity: 0, scale: 0.85, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -15 }}
+                transition={{ duration: 0.4 }}
+                className="relative z-10"
+              >
+                <img
+                  src={currentDish.image}
+                  alt={currentDish.name}
+                  className="w-full h-auto object-contain cutout-shadow drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)]"
+                />
+                <div className="mt-2 text-center">
+                  <span className="inline-block bg-charcoal-light/95 border border-amber-500/60 px-3 py-1 rounded-full text-xs text-amber-300 font-bold shadow-lg">
+                    {currentDish.badge} • <span className="text-white">{currentDish.price}</span>
+                  </span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Floating Mini Cutout Dish 1: Tôm Sốt Thái */}
+            {/* Mobile quick shuffle button */}
+            <button
+              onClick={handleNextDish}
+              className="absolute -top-3 left-1/2 -translate-x-1/2 z-25 bg-charcoal-mid border border-amber-500/40 text-amber-300 hover:text-white px-3 py-1 rounded-full text-[11px] font-bold shadow-md flex items-center gap-1 active:scale-95 transition"
+            >
+              <span>🎲</span>
+              <span>Đổi món khác</span>
+            </button>
+
+            {/* Floating Mini Cutout Dish 1 */}
             <motion.div
               animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute -top-6 -right-4 w-28 h-28 z-20"
+              className="absolute -top-4 -right-4 w-24 h-24 z-20"
             >
               <img
-                src="/images/image_rvbg/tomsotthai.png"
-                alt="Tôm Sốt Thái"
-                className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+                src={satelliteDishes[0]?.image}
+                alt={satelliteDishes[0]?.name}
+                className="w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)]"
               />
-              <span className="absolute -bottom-1 right-0 text-[10px] bg-chiliRed text-white font-bold px-2 py-0.5 rounded-full shadow border border-white/20 whitespace-nowrap">
-                🌶️ Tôm Sốt Thái
-              </span>
             </motion.div>
 
-            {/* Floating Mini Cutout Dish 2: Chả Giò Giòn Rụm */}
+            {/* Floating Mini Cutout Dish 2 */}
             <motion.div
               animate={{ y: [0, 8, 0], rotate: [0, -3, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              className="absolute -bottom-6 -left-3 w-28 h-28 z-20"
+              className="absolute -bottom-4 -left-3 w-24 h-24 z-20"
             >
               <img
-                src="/images/image_rvbg/chagio.png"
-                alt="Chả Giò"
-                className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+                src={satelliteDishes[1]?.image}
+                alt={satelliteDishes[1]?.name}
+                className="w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)]"
               />
-              <span className="absolute -top-1 left-0 text-[10px] bg-amber-500 text-charcoal font-bold px-2 py-0.5 rounded-full shadow border border-amber-300 whitespace-nowrap">
-                🔥 Chả Giò Rế
-              </span>
             </motion.div>
-
-            {/* Mobile sticker tag */}
-            <div className="absolute top-2 left-0 z-20 bg-charcoal-light/90 border border-amber-500/40 px-2.5 py-1 rounded-full text-[11px] text-amber-300 font-bold shadow-lg flex items-center gap-1 -rotate-6">
-              <span>🍻 100+ Mồi Bén</span>
-            </div>
           </div>
         </div>
 
@@ -207,7 +316,7 @@ const HeroSection = ({ onBooking }) => {
         </div>
 
         {/* ================= RIGHT COLUMN (Desktop 3D Stage) ================= */}
-        <div className="hidden md:flex w-1/2 relative justify-center items-center h-[640px]">
+        <div className="hidden md:flex w-1/2 relative justify-center items-center h-[660px]">
           <div
             ref={containerRef}
             onMouseMove={handleMouseMove}
@@ -216,79 +325,133 @@ const HeroSection = ({ onBooking }) => {
             style={{ perspective: 1200 }}
           >
             {/* Background Ambient Glow Flare */}
-            <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-[110px] scale-150 opacity-60 z-0 pointer-events-none" />
-            <div className="absolute inset-10 border border-amber-500/10 rounded-full animate-pulse pointer-events-none" />
+            <div className="absolute inset-0 bg-amber-500/25 rounded-full blur-[110px] scale-150 opacity-60 z-0 pointer-events-none" />
+            <div className="absolute inset-6 border border-amber-500/15 rounded-full animate-pulse pointer-events-none" />
 
-            {/* MAIN DISH: Gỏi Bò Tái Chanh (tilt reactive) */}
-            <motion.div
-              animate={{ rotateX, rotateY }}
-              transition={{ type: 'spring', stiffness: 120, damping: 25, mass: 0.5 }}
-              className="relative z-10 w-[78%] max-w-[440px]"
+            {/* Quick shuffle button on desktop */}
+            <button
+              onClick={handleNextDish}
+              title="Bấm để đổi món ăn khác"
+              className="absolute top-2 right-12 z-30 bg-charcoal-light/90 hover:bg-amber-500 text-amber-300 hover:text-charcoal border border-amber-500/40 px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-lg flex items-center gap-1.5 cursor-pointer active:scale-95"
             >
-              <img
-                src="/images/image_rvbg/goibo.png"
-                alt="Gỏi Bắp Bò Dốc Mơ Quán"
-                className="w-full h-auto object-contain cutout-shadow pointer-events-none filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.8)]"
-              />
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-charcoal-light/90 border border-amber-500/50 px-4 py-1.5 rounded-full text-xs text-amber-300 font-bold whitespace-nowrap shadow-xl">
-                ⭐ Gỏi Bắp Bò Tái Chanh
-              </div>
+              <span>🎲</span>
+              <span>Đổi món khác</span>
+            </button>
+
+            {/* MAIN DISH (Reactive 3D Tilt + Dynamic Translation) */}
+            <motion.div
+              animate={{
+                rotateX,
+                rotateY,
+                x: moveX,
+                y: moveY,
+                scale: 1.05,
+              }}
+              transition={{
+                type: 'spring',
+                stiffness: 150,
+                damping: 15,
+                mass: 0.5,
+              }}
+              className="relative z-20 w-[80%] max-w-[450px]"
+              onClick={handleNextDish}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentDish.id}
+                  initial={{ opacity: 0, scale: 0.8, rotate: -6 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 1.08, rotate: 6 }}
+                  transition={{ duration: 0.45, ease: 'easeOut' }}
+                  className="relative group cursor-pointer"
+                >
+                  <img
+                    src={currentDish.image}
+                    alt={currentDish.name}
+                    className="w-full h-auto object-contain cutout-shadow pointer-events-none filter drop-shadow-[0_28px_40px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-charcoal-light/95 border border-amber-500/60 px-4 py-2 rounded-full text-xs md:text-sm text-amber-300 font-bold whitespace-nowrap shadow-2xl flex items-center gap-2">
+                    <span>{currentDish.badge}</span>
+                    <span className="text-white bg-chiliRed px-2 py-0.5 rounded-full text-xs font-black">
+                      {currentDish.price}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
 
-            {/* SATELLITE DISH 1: Tôm Sốt Thái (Top Right) */}
+            {/* SATELLITE DISH 1: Parallax offset in opposite direction (Top Right) */}
             <motion.div
               animate={{
                 y: [0, -14, 0],
                 rotate: [0, 5, 0],
+                x: -moveX * 0.5,
               }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-[8%] right-[2%] w-44 h-44 z-20 group"
+              transition={{
+                y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+                rotate: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+                x: { type: 'spring', stiffness: 100, damping: 20 },
+              }}
+              className="absolute top-[8%] right-[2%] w-44 h-44 z-25 group cursor-pointer"
+              onClick={handleNextDish}
             >
               <img
-                src="/images/image_rvbg/tomsotthai.png"
-                alt="Tôm Sốt Thái"
-                className="w-full h-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.7)] group-hover:scale-110 transition-transform duration-300"
+                src={satelliteDishes[0]?.image}
+                alt={satelliteDishes[0]?.name}
+                className="w-full h-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.75)] group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute -bottom-1 right-2 bg-chiliRed text-white text-xs font-bold px-3 py-1 rounded-full shadow-[0_0_12px_rgba(232,69,44,0.6)] border border-white/20 whitespace-nowrap">
-                🌶️ Tôm Sốt Thái
+              <div className="absolute -bottom-1 right-2 bg-chiliRed text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(232,69,44,0.6)] border border-white/20 whitespace-nowrap">
+                {satelliteDishes[0]?.badge}
               </div>
             </motion.div>
 
-            {/* SATELLITE DISH 2: Chả Giò Rế (Bottom Left) */}
+            {/* SATELLITE DISH 2: Parallax offset (Bottom Left) */}
             <motion.div
               animate={{
                 y: [0, 12, 0],
                 rotate: [0, -4, 0],
+                x: -moveX * 0.4,
               }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              className="absolute bottom-[6%] left-[0%] w-44 h-44 z-20 group"
+              transition={{
+                y: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 },
+                rotate: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 },
+                x: { type: 'spring', stiffness: 100, damping: 20 },
+              }}
+              className="absolute bottom-[6%] left-[0%] w-44 h-44 z-25 group cursor-pointer"
+              onClick={handleNextDish}
             >
               <img
-                src="/images/image_rvbg/chagio.png"
-                alt="Chả Giò Rế"
-                className="w-full h-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.7)] group-hover:scale-110 transition-transform duration-300"
+                src={satelliteDishes[1]?.image}
+                alt={satelliteDishes[1]?.name}
+                className="w-full h-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.75)] group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute -bottom-1 left-2 bg-amber text-charcoal text-xs font-bold px-3 py-1 rounded-full shadow-[0_0_12px_rgba(245,166,35,0.6)] border border-amber-300 whitespace-nowrap">
-                🔥 Chả Giò Giòn Rụm
+              <div className="absolute -bottom-1 left-2 bg-amber text-charcoal text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(245,166,35,0.6)] border border-amber-300 whitespace-nowrap">
+                {satelliteDishes[1]?.badge}
               </div>
             </motion.div>
 
-            {/* SATELLITE DISH 3: Mực Nướng Than (Top Left) */}
+            {/* SATELLITE DISH 3: Top Left */}
             <motion.div
               animate={{
                 y: [0, -10, 0],
                 rotate: [0, -3, 0],
+                x: -moveX * 0.3,
               }}
-              transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              className="absolute top-[12%] left-[4%] w-36 h-36 z-15 group"
+              transition={{
+                y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 2 },
+                rotate: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 2 },
+                x: { type: 'spring', stiffness: 100, damping: 20 },
+              }}
+              className="absolute top-[10%] left-[4%] w-36 h-36 z-15 group cursor-pointer"
+              onClick={handleNextDish}
             >
               <img
-                src="/images/image_rvbg/muc.png"
-                alt="Mực Nướng Than"
+                src={satelliteDishes[2]?.image}
+                alt={satelliteDishes[2]?.name}
                 className="w-full h-full object-contain filter drop-shadow-[0_12px_20px_rgba(0,0,0,0.7)] group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute -bottom-1 left-1 bg-charcoal-light/90 text-amber-300 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-amber-500/40 shadow whitespace-nowrap">
-                🍢 Mực Nướng Than
+              <div className="absolute -bottom-1 left-1 bg-charcoal-light/90 text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-500/40 shadow whitespace-nowrap">
+                {satelliteDishes[2]?.badge}
               </div>
             </motion.div>
 
@@ -296,7 +459,7 @@ const HeroSection = ({ onBooking }) => {
             <motion.div
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-              className="absolute top-[42%] right-[-2%] z-25 bg-gradient-to-r from-amber-500 to-amber-600 text-charcoal font-headline tracking-wider text-xs font-bold px-3 py-1.5 rounded-md shadow-lg rotate-6 border border-amber-300"
+              className="absolute top-[40%] right-[-2%] z-30 bg-gradient-to-r from-amber-500 to-amber-600 text-charcoal font-headline tracking-wider text-xs font-bold px-3 py-1.5 rounded-md shadow-lg rotate-6 border border-amber-300"
             >
               🍻 BIA TUYẾT LẠNH TÊ
             </motion.div>
@@ -304,7 +467,7 @@ const HeroSection = ({ onBooking }) => {
             <motion.div
               animate={{ y: [0, 6, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-              className="absolute bottom-[22%] right-[4%] z-25 bg-charcoal-light/95 text-green-400 font-bold text-xs px-3 py-1 rounded-full border border-green-500/40 shadow-lg -rotate-3 flex items-center gap-1"
+              className="absolute bottom-[20%] right-[3%] z-30 bg-charcoal-light/95 text-green-400 font-bold text-xs px-3 py-1 rounded-full border border-green-500/40 shadow-lg -rotate-3 flex items-center gap-1"
             >
               <span>🎉</span>
               <span>GIẢM 10% ĐẶT BÀN</span>
