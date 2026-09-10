@@ -7,7 +7,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center justify-center md:justify-start mb-4">
-              <img src="/images/Logo/main_logo-removebg-preview.png" alt="Logo" className="w-12 h-12 bg-white rounded-full p-1" />
+              <img
+                src="/images/Logo/main_logo-removebg-preview.png"
+                alt="Dốc Mơ Quán Logo"
+                className="h-12 w-auto object-contain drop-shadow-[0_0_10px_rgba(245,166,35,0.4)]"
+              />
               <span className="ml-3 font-headline font-bold text-amber-400 text-2xl tracking-wider">DỐC MƠ QUÁN</span>
             </div>
             <p className="text-gray-400 italic">"Ăn Hết Mình, Uống Nhiệt Tình"</p>
@@ -18,7 +22,7 @@ export default function Footer() {
             <ul className="text-gray-400 space-y-2">
               <li>📍 22 Đ. Nguyễn Ảnh Thủ, Bà Điểm, Hóc Môn, TP.HCM</li>
               <li>📞 Hotline: <a href="tel:0984586248" className="text-amber-400 hover:underline">0984 586 248</a></li>
-              <li>⏰ Giờ mở cửa: 10:00 - 23:00</li>
+              <li>⏰ Giờ mở cửa: 16:00 - 23:00</li>
             </ul>
           </div>
           

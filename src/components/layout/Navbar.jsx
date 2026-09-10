@@ -26,11 +26,13 @@ export default function Navbar({ onBooking }) {
       <nav className={`sticky top-0 z-50 transition-all duration-300 backdrop-blur-md bg-[#1A1714]/80 ${scrolled ? 'shadow-[0_4px_20px_rgba(245,158,11,0.1)] border-b border-amber-500/20' : 'border-b border-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <a href="#hero" className="flex items-center cursor-pointer">
-              <div className="w-10 h-10 rounded-full ring-2 ring-amber-500/50 animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] overflow-hidden bg-white">
-                <img src="/images/Logo/main_logo-removebg-preview.png" alt="Dốc Mơ Logo" className="w-full h-full object-cover" />
-              </div>
-              <span className="ml-3 font-headline font-bold text-amber-400 text-xl tracking-wider uppercase">DỐC MƠ</span>
+            <a href="#hero" className="flex items-center cursor-pointer group">
+              <img
+                src="/images/Logo/main_logo-removebg-preview.png"
+                alt="Dốc Mơ Quán Logo"
+                className="h-11 w-auto object-contain drop-shadow-[0_0_10px_rgba(245,166,35,0.4)] group-hover:scale-105 transition-transform"
+              />
+              <span className="ml-3 font-headline font-bold text-amber-400 text-xl md:text-2xl tracking-wider uppercase">DỐC MƠ QUÁN</span>
             </a>
             
             <div className="hidden md:flex items-center space-x-8">
