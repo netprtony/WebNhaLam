@@ -1,37 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export function useScrollDirection() {
-  const [scrollDirection, setScrollDirection] = useState('up');
-  const [scrollY, setScrollY] = useState(0);
+/**
+ * Detects scroll direction (up/down).
+ * Returns 'up' | 'down' | null
+ */
+export function useScrollDirection(threshold = 10) {
+  const [direction, setDirection] = useState(null);
+  const [prevScroll, setPrevScroll] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const currentScroll = window.scrollY;
+    const diff = currentScroll - prevScroll;
+
+    if (Math.abs(diff) < threshold) return;
+
+    setDirection(diff > 0 ? 'down' : 'up');
+    setPrevScroll(currentScroll);
+  }, [prevScroll, threshold]);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let ticking = false;
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
-    const updateScrollDir = () => {
-      const currentScrollY = window.scrollY;
-      setScrollY(currentScrollY);
-
-      if (Math.abs(currentScrollY - lastScrollY) < 5) {
-        ticking = false;
-        return;
-      }
-
-      setScrollDirection(currentScrollY > lastScrollY ? 'down' : 'up');
-      lastScrollY = currentScrollY > 0 ? currentScrollY : 0;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollDir);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  return { scrollDirection, scrollY };
+  return direction;
 }

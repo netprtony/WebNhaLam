@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   DỐC MƠ QUÁN v2 — Night-Market Charcoal Theme
+   ============================================ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-charcoal text-gray-200 font-body;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-amber/30 text-white;
+  }
+
+  /* Custom scrollbar — charcoal/amber */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-charcoal;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-charcoal-surface rounded-full;
+    border: 2px solid transparent;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(245, 166, 35, 0.4);
+  }
+}
+
+@layer components {
+  /* Section standard padding */
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+  }
+
+  /* Neon micro-border glow */
+  .neon-border {
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    box-shadow: 0 0 8px rgba(245, 166, 35, 0.15),
+                inset 0 0 8px rgba(245, 166, 35, 0.05);
+  }
+
+  .neon-border-strong {
+    border: 1px solid rgba(245, 166, 35, 0.5);
+    box-shadow: 0 0 15px rgba(245, 166, 35, 0.25),
+                inset 0 0 15px rgba(245, 166, 35, 0.08);
+  }
+
+  /* Industrial tag — sticker xoay nhẹ */
+  .industrial-tag {
+    @apply inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider;
+    @apply bg-charcoal-light/80 backdrop-blur-sm rounded-sm;
+    @apply border border-amber/30;
+    transform: rotate(-3deg);
+  }
+
+  .industrial-tag-hot {
+    @apply industrial-tag;
+    @apply bg-chiliRed/90 text-white border-chiliRed;
+    box-shadow: 0 0 10px rgba(232, 69, 44, 0.4);
+  }
+
+  .industrial-tag-best {
+    @apply industrial-tag;
+    @apply bg-amber/90 text-charcoal border-amber;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.4);
+  }
+
+  .industrial-tag-new {
+    @apply industrial-tag;
+    @apply bg-mintGreen/90 text-charcoal border-mintGreen;
+    box-shadow: 0 0 10px rgba(74, 236, 192, 0.4);
+  }
+
+  /* Glow text shadow */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(245, 166, 35, 0.3),
+                 0 0 40px rgba(245, 166, 35, 0.1);
+  }
+
+  .text-glow-red {
+    text-shadow: 0 0 20px rgba(232, 69, 44, 0.3),
+                 0 0 40px rgba(232, 69, 44, 0.1);
+  }
+
+  /* Cutout food image drop shadow */
+  .cutout-shadow {
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
+  }
+
+  .cutout-shadow-sm {
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
+  }
+
+  /* Card surface */
+  .card-surface {
+    @apply bg-charcoal-light border border-white/5 rounded-2xl;
+    @apply hover:border-amber/20 transition-all duration-300;
+  }
+
+  /* Ambient overlay on hover */
+  .ambient-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-amber/20 to-transparent;
+    @apply opacity-0 transition-opacity duration-500;
+  }
+
+  .group:hover .ambient-overlay {
+    @apply opacity-100;
+  }
+}
+
+@layer utilities {
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-glow-pulse,
+    .animate-float,
+    .animate-kenburns {
+      animation: none !important;
+    }
+
+    .motion-safe\:animate-none {
+      animation: none !important;
+    }
+  }
+
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

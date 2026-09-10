@@ -1,99 +1,51 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useScrollDirection } from '../../hooks/useScrollDirection';
+'use client';
 
-export default function FloatingActionDock() {
-  const { scrollDirection, scrollY } = useScrollDirection();
-  const [isDesktopOpen, setIsDesktopOpen] = useState(false);
-  const isVisible = scrollY < 200 || scrollDirection === 'up';
+import { useState, useEffect } from 'react';
+
+export default function FloatingActionDock({ onBooking }) {
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+          setShow(false);
+        } else {
+          setShow(true);
+        }
+        setLastScrollY(window.scrollY);
+      }
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+      return () => window.removeEventListener('scroll', controlNavbar);
+    }
+  }, [lastScrollY]);
 
   return (
     <>
-      {/* Mobile dock - Street bar */}
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            exit={{ y: 100 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-0 right-0 z-40 md:hidden select-none"
-            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-          >
-            <div className="bg-brand-bg-deep/95 backdrop-blur-md border-t-2 border-brand-cream/30 shadow-[0_-8px_25px_rgba(0,0,0,0.5)]">
-              <div className="grid grid-cols-3 gap-0">
-                <a
-                  href="tel:0984586248"
-                  className="flex flex-col items-center justify-center py-2.5 gap-1 text-brand-cream active:scale-95 transition-transform"
-                >
-                  <span className="text-xl">☎</span>
-                  <span className="font-stencil text-[10px] font-bold uppercase tracking-wider">Gọi Quán</span>
-                </a>
-                <a
-                  href="tel:0984586248"
-                  className="flex flex-col items-center justify-center py-1 gap-1 active:scale-95 transition-transform"
-                >
-                  <span className="text-xl bg-brand-cream text-brand-bg w-12 h-12 rounded-full flex items-center justify-center -mt-6 shadow-2xl border-2 border-brand-bg-deep animate-pulse-slow font-black">
-                    🍻
-                  </span>
-                  <span className="font-stencil text-[10px] font-black text-brand-cream uppercase tracking-wider">Đặt Bàn</span>
-                </a>
-                <a
-                  href="https://zalo.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center justify-center py-2.5 gap-1 text-brand-cream active:scale-95 transition-transform"
-                >
-                  <span className="text-xl">💬</span>
-                  <span className="font-stencil text-[10px] font-bold uppercase tracking-wider">Zalo Chat</span>
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Desktop floating button */}
-      <div className="hidden md:block fixed bottom-6 right-6 z-40 select-none">
-        <div className="relative">
-          <AnimatePresence>
-            {isDesktopOpen && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: 10 }}
-                className="absolute bottom-16 right-0 flex flex-col gap-2.5 mb-2"
-              >
-                <a
-                  href="tel:0984586248"
-                  className="flex items-center gap-2 px-5 py-3 rounded bg-brand-cream shadow-2xl text-brand-bg font-retro font-black text-xs uppercase tracking-wider hover:bg-brand-cream-light hover:scale-105 transition-all whitespace-nowrap border border-brand-cream"
-                >
-                  <span>☎</span>
-                  <span>Gọi Bàn: 0984 586 248</span>
-                </a>
-                <a
-                  href="https://zalo.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-3 rounded bg-brand-bg-deep border-2 border-brand-cream shadow-2xl text-brand-cream font-stencil font-bold text-xs uppercase tracking-wider hover:bg-brand-cream hover:text-brand-bg hover:scale-105 transition-all whitespace-nowrap"
-                >
-                  <span>💬</span>
-                  <span>Chat Zalo Quán</span>
-                </a>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsDesktopOpen(!isDesktopOpen)}
-            className="w-14 h-14 rounded-full bg-brand-cream text-brand-bg shadow-2xl flex items-center justify-center text-2xl border-2 border-brand-bg-deep hover:bg-brand-cream-light transition-colors"
-            aria-label="Menu liên hệ nhanh"
-          >
-            {isDesktopOpen ? '✕' : '🍻'}
-          </motion.button>
+      {/* Mobile Bottom Dock */}
+      <div className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#1A1714]/90 backdrop-blur-md border-t border-amber-500/20 shadow-[0_-5px_20px_rgba(245,158,11,0.1)] transition-transform duration-300 ${show ? 'translate-y-0' : 'translate-y-full'}`}>
+        <div className="flex justify-around items-center p-3 font-body">
+          <a href="tel:0984586248" className="flex flex-col items-center text-gray-300 active:scale-95 transition-transform">
+            <span className="text-xl mb-1">📞</span>
+            <span className="text-xs">Gọi Ngay</span>
+          </a>
+          <a href="https://maps.google.com/?q=22+Nguyễn+Ảnh+Thủ+Bà+Điểm+Hóc+Môn" target="_blank" rel="noreferrer" className="flex flex-col items-center text-gray-300 active:scale-95 transition-transform">
+            <span className="text-xl mb-1">📍</span>
+            <span className="text-xs">Chỉ Đường</span>
+          </a>
+          <button onClick={onBooking} className="flex flex-col items-center bg-gradient-to-r from-[#E8452C] to-amber-500 text-white px-4 py-2 rounded-full animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] active:scale-95 transition-transform cursor-pointer">
+            <span className="text-sm font-bold flex items-center gap-1">🍖 Đặt Bàn</span>
+          </button>
         </div>
       </div>
+      
+      {/* Desktop Floating Button */}
+      <button onClick={onBooking} title="Đặt bàn nhanh" className="hidden md:flex fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#E8452C] items-center justify-center text-2xl animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] shadow-[0_0_15px_rgba(232,69,44,0.6)] hover:scale-110 transition-transform cursor-pointer">
+        🍖
+      </button>
     </>
   );
 }
